@@ -1,7 +1,6 @@
 package com.deepcodeia.deepcode_app.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,7 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -25,8 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.R
+import androidx.compose.material3.Divider
 
-// Colores
+
+
 private val DeepBg = Color(0xFF0B0B0B)
 private val DeepSurface = Color(0xFF161616)
 private val DeepNeon = Color(0xFF20FF00)
@@ -35,7 +35,7 @@ private val DeepTextSecondary = Color(0xFFBDBDBD)
 private val DeepBorder = Color(0xFF2E2E2E)
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLogin: () -> Unit = {}){
     Surface(modifier = Modifier.fillMaxSize(), color = DeepBg) {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -115,7 +115,7 @@ fun LoginScreen() {
                 Spacer(Modifier.height(20.dp))
 
                 Button(
-                    onClick = { /* solo UI */ },
+                    onClick = onLogin,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(52.dp),
@@ -128,7 +128,7 @@ fun LoginScreen() {
 
                 Spacer(Modifier.height(18.dp))
 
-                // Separador “O inicia sesión con”
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -154,7 +154,7 @@ fun LoginScreen() {
                 Text(
                     text = "¿No tienes cuenta? Regístrate aquí",
                     color = DeepTextSecondary,
-                    fontSize = 13.sp,
+                    fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )
             }

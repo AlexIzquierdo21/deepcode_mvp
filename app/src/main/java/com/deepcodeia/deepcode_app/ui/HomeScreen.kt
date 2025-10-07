@@ -14,9 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.foundation.background
+import androidx.compose.ui.unit.dp
+import com.deepcodeia.deepcode_app.R
+
 
 
 private val DeepBg = Color(0xFF0B0B0B)
@@ -25,27 +33,45 @@ private val DeepNeon = Color(0xFF20FF00)
 private val DeepBorder = Color(0xFF2E2E2E)
 private val DeepTextSecondary = Color(0xFFBDBDBD)
 
+private val DeepBlue = Color(0xFF00E5FF) // Electric Blue
+
 @Composable
 fun HomeScreen(
     onVideosClick: () -> Unit = {},
     onCoursesClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
-    onSettingsClick: () -> Unit = {}
+    onSettingsClick: () -> Unit = {},
+    onLogout: () -> Unit = {},
 ) {
     Surface(Modifier.fillMaxSize(), color = DeepBg) {
         Box(Modifier.fillMaxSize()) {
+
+            Image(
+                painter = painterResource(R.drawable.fondo_homescreen),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+
+
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color(0x66000000)) // 40% negro
+            )
+
+
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .widthIn(max = 360.dp)
                     .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(18.dp)
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     "Menú",
                     color = DeepNeon,
-                    fontSize = 24.sp,
+                    fontSize = 34.sp,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -66,7 +92,7 @@ fun HomeScreen(
                 }
 
                 Spacer(Modifier.height(6.dp))
-                Text("DeepCodeApp", color = DeepTextSecondary, fontSize = 12.sp)
+                Text("DeepCodeApp", color = DeepBlue, fontSize = 18.sp)
             }
         }
     }
@@ -75,7 +101,7 @@ fun HomeScreen(
 @Composable
 private fun MenuTile(
     label: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
