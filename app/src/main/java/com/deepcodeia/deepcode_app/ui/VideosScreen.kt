@@ -11,21 +11,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
-
-private val DeepBg = Color(0xFF0B0B0B)
-private val DeepNeon = Color(0xFF20FF00)
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun VideosScreen(
     playlistId: String = "PLDkQmEYGZru8fgGR9JM7Lp-BSKD8Xz9-G",
     secondaryPlaylistId: String = "PLDkQmEYGZru-z9VtbV89b-myzSymIGEvg",
     onBack: () -> Unit = {}
-)
-
-{
+){
     val context = LocalContext.current
-    Surface(color = DeepBg, modifier = Modifier.fillMaxSize()) {
+    Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -34,10 +29,10 @@ fun VideosScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextButton(onClick = onBack, modifier = Modifier.align(Alignment.Start)) {
-                Text("← Volver", color = Color.White)
+                Text("← Volver", color = MaterialTheme.colorScheme.onBackground)
             }
 
-            Text("Vídeos", color = DeepNeon, fontWeight = FontWeight.Bold)
+            Text("Vídeos", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
 
             Button(
                 onClick = {
@@ -46,7 +41,7 @@ fun VideosScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = DeepNeon,
+                    containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = Color.Black
                 )
             ) {
@@ -61,7 +56,7 @@ fun VideosScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = DeepNeon,
+                    containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = Color.Black
                 )
             ) {

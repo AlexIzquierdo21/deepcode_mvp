@@ -26,17 +26,10 @@ import com.deepcodeia.deepcode_app.R
 import androidx.compose.material3.Divider
 
 
-
-private val DeepBg = Color(0xFF0B0B0B)
-private val DeepSurface = Color(0xFF161616)
-private val DeepNeon = Color(0xFF20FF00)
-private val DeepText = Color(0xFFEFEFEF)
-private val DeepTextSecondary = Color(0xFFBDBDBD)
-private val DeepBorder = Color(0xFF2E2E2E)
-
 @Composable
 fun LoginScreen(onLogin: () -> Unit = {}){
-    Surface(modifier = Modifier.fillMaxSize(), color = DeepBg) {
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background)
+    {
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)) {
@@ -59,7 +52,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Text(
                     text = "DeepCodeApp",
-                    color = DeepNeon,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
@@ -80,12 +73,12 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = DeepNeon,
-                        focusedLabelColor = DeepNeon,
-                        focusedLeadingIconColor = DeepNeon,
-                        unfocusedContainerColor = DeepSurface,
-                        focusedContainerColor = DeepSurface,
-                        unfocusedBorderColor = DeepBorder
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        focusedLeadingIconColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                     )
                 )
 
@@ -103,12 +96,12 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = DeepNeon,
-                        focusedLabelColor = DeepNeon,
-                        focusedLeadingIconColor = DeepNeon,
-                        unfocusedContainerColor = DeepSurface,
-                        focusedContainerColor = DeepSurface,
-                        unfocusedBorderColor = DeepBorder
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        focusedLeadingIconColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                     )
                 )
 
@@ -121,10 +114,14 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                         .height(52.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = DeepNeon,
-                        contentColor = Color.Black
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
-                ) { Text("Iniciar sesión", fontWeight = FontWeight.SemiBold) }
+                ) { Text(
+                    "Iniciar sesión",
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
+                    ) }
 
                 Spacer(Modifier.height(18.dp))
 
@@ -133,9 +130,11 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Divider(Modifier.weight(1f), color = DeepBorder)
-                    Text("  O inicia sesión con  ", color = DeepTextSecondary, fontSize = 13.sp)
-                    Divider(Modifier.weight(1f), color = DeepBorder)
+                    Divider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
+                    Text("  O inicia sesión con  ",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 13.sp)
+                    Divider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
                 }
 
                 Spacer(Modifier.height(14.dp))
@@ -153,7 +152,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Text(
                     text = "¿No tienes cuenta? Regístrate aquí",
-                    color = DeepTextSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )
@@ -164,17 +163,17 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
 @Composable
 private fun SocialCircle(iconRes: Int) {
-    // Círculo más compacto con leve elevación
+    // Círculo compacto con leve elevación
     Surface(
         shape = CircleShape,
-        color = DeepSurface,
+        color = MaterialTheme.colorScheme.surface,
         tonalElevation = 2.dp,
-        shadowElevation = 6.dp // leve sombra
+        shadowElevation = 6.dp
     ) {
         Box(
             modifier = Modifier
-                .size(56.dp) // antes 64: se ve más proporcionado
-                .border(1.dp, DeepBorder, CircleShape),
+                .size(56.dp)
+                .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Image(

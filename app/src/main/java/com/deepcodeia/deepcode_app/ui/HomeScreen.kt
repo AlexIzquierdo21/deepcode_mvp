@@ -5,10 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,28 +20,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.ui.unit.dp
 import com.deepcodeia.deepcode_app.R
-
-
-
-private val DeepBg = Color(0xFF0B0B0B)
-private val DeepSurface = Color(0xFF161616)
-private val DeepNeon = Color(0xFF20FF00)
-private val DeepBorder = Color(0xFF2E2E2E)
-private val DeepTextSecondary = Color(0xFFBDBDBD)
-
-private val DeepBlue = Color(0xFF00E5FF) // Electric Blue
+import androidx.compose.material3.MaterialTheme
+import com.deepcodeia.deepcode_app.ui.theme.Dimens
 
 @Composable
 fun HomeScreen(
     onVideosClick: () -> Unit = {},
-    onCoursesClick: () -> Unit = {},
+    onChallengesClick: () -> Unit = {},
+    onCreateChallengeClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
-    onSettingsClick: () -> Unit = {},
     onLogout: () -> Unit = {},
 ) {
-    Surface(Modifier.fillMaxSize(), color = DeepBg) {
+    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Box(Modifier.fillMaxSize()) {
 
             Image(
@@ -53,24 +45,23 @@ fun HomeScreen(
                 contentScale = ContentScale.Crop
             )
 
-
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(Color(0x66000000)) // 40% negro
+                    .background(Color(0x99000000)) // 60% negro
             )
-
 
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .widthIn(max = 360.dp)
-                    .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(horizontal = Dimens.ScreenPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     "Menú",
-                    color = DeepNeon,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 34.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -80,24 +71,24 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     MenuTile("Vídeos", Icons.Filled.PlayArrow, onVideosClick, Modifier.weight(1f))
-                    MenuTile("Cursos", Icons.Filled.School, onCoursesClick, Modifier.weight(1f))
+                    MenuTile("Retos", Icons.Filled.Task, onChallengesClick, Modifier.weight(1f))
                 }
+                Spacer(Modifier.height(16.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    MenuTile("Crear Reto", Icons.Filled.AddCircle, onCreateChallengeClick, Modifier.weight(1f))
                     MenuTile("Perfil", Icons.Filled.Person, onProfileClick, Modifier.weight(1f))
-                    MenuTile("Ajustes", Icons.Filled.Settings, onSettingsClick, Modifier.weight(1f))
                 }
 
                 Spacer(Modifier.height(6.dp))
-                Text("DeepCodeApp", color = DeepBlue, fontSize = 18.sp)
+                Text("DeepCodeApp", color = MaterialTheme.colorScheme.secondary, fontSize = 18.sp)
             }
         }
     }
 }
-
 @Composable
 private fun MenuTile(
     label: String,
@@ -106,24 +97,37 @@ private fun MenuTile(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = DeepSurface,
+        shape = RoundedCornerShape(Dimens.TileRadius),
+        color = MaterialTheme.colorScheme.surface,
         tonalElevation = 2.dp,
-        border = BorderStroke(1.dp, DeepBorder),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         modifier = modifier
-            .height(100.dp)
+            .height(Dimens.TileHeight)
             .clickable { onClick() }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(icon, contentDescription = null, tint = DeepNeon, modifier = Modifier.size(28.dp))
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(28.dp)
+            )
             Spacer(Modifier.height(8.dp))
-            Text(label, fontWeight = FontWeight.SemiBold, color = Color.White)
+            Text(
+                text = label,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1
+            )
         }
     }
 }
+
 
 
