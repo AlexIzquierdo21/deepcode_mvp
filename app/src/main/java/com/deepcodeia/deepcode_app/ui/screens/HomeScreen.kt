@@ -25,15 +25,17 @@ import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.R
 import com.deepcodeia.deepcode_app.ui.theme.Dimens
 
+// Pantalla principal de la app con el menú de navegación
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onVideosClick: () -> Unit = {},
-    onChallengesClick: () -> Unit = {},
-    onCreateChallengeClick: () -> Unit = {},
-    onProfileClick: () -> Unit = {},
-    onLogout: () -> Unit = {},
+    onVideosClick: () -> Unit = {},           // Acción al pulsar "Vídeos"
+    onChallengesClick: () -> Unit = {},       // Acción al pulsar "Retos"
+    onCreateChallengeClick: () -> Unit = {},  // Acción al pulsar "Crear Reto"
+    onProfileClick: () -> Unit = {},          // Acción al pulsar "Perfil"
+    onLogout: () -> Unit = {},                // Acción al cerrar sesión
 ) {
+    // Estructura general con barra superior
     Scaffold(
         topBar = {
             TopAppBar(
@@ -51,12 +53,13 @@ fun HomeScreen(
         },
         containerColor = Color.Transparent
     ) { innerPadding ->
+        // Contenedor principal
         Box(
             Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Fondo
+            // Imagen de fondo
             Image(
                 painter = painterResource(R.drawable.fondo_homescreen),
                 contentDescription = null,
@@ -64,14 +67,14 @@ fun HomeScreen(
                 contentScale = ContentScale.Crop
             )
 
-            // Capa oscura para legibilidad
+            // Capa oscura para mejorar la legibilidad del contenido
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(Color(0x99000000)) // 60% negro
+                    .background(Color(0x99000000)) // ~60% negro
             )
 
-            // Contenido principal
+            // Contenido principal centrado
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -80,7 +83,7 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Fila 1
+                // Fila 1: Vídeos y Retos
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -91,7 +94,7 @@ fun HomeScreen(
 
                 Spacer(Modifier.height(16.dp))
 
-                // Fila 2
+                // Fila 2: Crear Reto y Perfil
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -101,6 +104,7 @@ fun HomeScreen(
                 }
 
                 Spacer(Modifier.height(6.dp))
+                // Texto inferior con nombre de la app
                 Text(
                     "DeepCodeApp",
                     color = MaterialTheme.colorScheme.secondary,
@@ -111,22 +115,24 @@ fun HomeScreen(
     }
 }
 
+// Componente reutilizable para cada opción del menú
 @Composable
 private fun MenuTile(
-    label: String,
-    icon: ImageVector,
-    onClick: () -> Unit,
+    label: String,               // Texto del botón
+    icon: ImageVector,           // Icono mostrado
+    onClick: () -> Unit,         // Acción al pulsar
     modifier: Modifier = Modifier
 ) {
     Surface(
-        shape = RoundedCornerShape(Dimens.TileRadius),
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 2.dp,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        shape = RoundedCornerShape(Dimens.TileRadius),   // Bordes redondeados
+        color = MaterialTheme.colorScheme.surface,       // Color del fondo del tile
+        tonalElevation = 2.dp,                           // Elevación (sombra)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline), // Borde gris
         modifier = modifier
             .height(Dimens.TileHeight)
-            .clickable { onClick() }
+            .clickable { onClick() }                     // Acción al hacer click
     ) {
+        // Contenido del tile (icono + texto)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -150,6 +156,7 @@ private fun MenuTile(
         }
     }
 }
+
 
 
 

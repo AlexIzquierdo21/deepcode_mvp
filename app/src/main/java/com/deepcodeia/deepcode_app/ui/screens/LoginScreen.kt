@@ -27,22 +27,24 @@ import androidx.compose.material3.Divider
 import com.deepcodeia.deepcode_app.ui.components.AppButton
 import com.deepcodeia.deepcode_app.ui.components.ButtonVariant
 
-
-
+// Pantalla de inicio de sesión de la aplicación
 @Composable
-fun LoginScreen(onLogin: () -> Unit = {}){
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background)
-    {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp)) {
-
+fun LoginScreen(onLogin: () -> Unit = {}) {
+    // Fondo principal
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+        ) {
+            // Contenedor principal centrado
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .widthIn(max = 360.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Logo de la app
                 Image(
                     painter = painterResource(R.drawable.logo_sinfondo),
                     contentDescription = "Logo DeepCodeApp",
@@ -53,6 +55,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                     contentScale = ContentScale.Fit
                 )
 
+                // Título de la app
                 Text(
                     text = "DeepCodeApp",
                     color = MaterialTheme.colorScheme.primary,
@@ -63,10 +66,11 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(28.dp))
 
+                // Campos de entrada: email y contraseña
                 var email by remember { mutableStateOf("") }
                 var password by remember { mutableStateOf("") }
 
-                // Email
+                // Campo de correo electrónico
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -87,7 +91,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(14.dp))
 
-                // Password
+                // Campo de contraseña
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
@@ -95,7 +99,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                     label = { Text("Contraseña") },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                     singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = PasswordVisualTransformation(), // Oculta el texto
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -110,6 +114,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(20.dp))
 
+                // Botón principal de inicio de sesión
                 AppButton(
                     text = "Iniciar sesión",
                     onClick = onLogin,
@@ -120,7 +125,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(18.dp))
 
-
+                // Línea divisoria y texto "O inicia sesión con"
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -136,7 +141,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(14.dp))
 
-
+                // Botones sociales (Google y Facebook)
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -147,6 +152,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(18.dp))
 
+                // Enlace de registro
                 Text(
                     text = "¿No tienes cuenta? Regístrate aquí",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -158,10 +164,9 @@ fun LoginScreen(onLogin: () -> Unit = {}){
     }
 }
 
-
+// Componente circular para botones sociales (Google/Facebook)
 @Composable
 private fun SocialCircle(iconRes: Int) {
-    // Círculo compacto con leve elevación
     Surface(
         shape = CircleShape,
         color = MaterialTheme.colorScheme.surface,

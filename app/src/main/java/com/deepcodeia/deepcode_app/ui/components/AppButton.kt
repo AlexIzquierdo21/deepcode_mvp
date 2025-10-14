@@ -13,20 +13,23 @@ import androidx.compose.ui.unit.dp
 import com.deepcodeia.deepcode_app.ui.theme.Dimens
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 
-
+// Tipos de botones disponibles en la app
 enum class ButtonVariant { Primary, Secondary, Black, Outline }
 
+// Componente de botón reutilizable con diferentes variantes y estilos
 @Composable
 fun AppButton(
-    text: String,                          // Texto dentro del botón
-    onClick: () -> Unit,                   // Acción que se ejecuta al pulsar
-    modifier: Modifier = Modifier,         // Permite pasar modificadores externos
-    variant: ButtonVariant = ButtonVariant.Primary, // Tipo de botón
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null,      // Icono opcional antes del texto
-    textColor: Color? = null,              // Color del texto (override)
+    text: String,                          // Texto mostrado en el botón
+    onClick: () -> Unit,                   // Acción al hacer click
+    modifier: Modifier = Modifier,         // Modificadores externos
+    variant: ButtonVariant = ButtonVariant.Primary, // Tipo de botón (por defecto Primary)
+    enabled: Boolean = true,               // Estado habilitado/deshabilitado
+    leadingIcon: ImageVector? = null,      // Icono opcional a la izquierda del texto
+    textColor: Color? = null,              // Color personalizado del texto
 ) {
+    // Define colores según el tipo de botón
     val btnColors = when (variant) {
         ButtonVariant.Primary -> ButtonDefaults.buttonColors(             // Botón principal (verde neón)
             containerColor = MaterialTheme.colorScheme.primary,
@@ -40,14 +43,16 @@ fun AppButton(
             containerColor = Color.Black,
             contentColor = MaterialTheme.colorScheme.onPrimary
         )
-        ButtonVariant.Outline -> ButtonDefaults.buttonColors(             // Botón con borde y fondo transparente
+        ButtonVariant.Outline -> ButtonDefaults.buttonColors(             // Botón sin fondo (solo borde)
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onSurface
         )
     }
 
-    val shape = MaterialTheme.shapes.medium   // Forma del botón (usa la del tema)
+    // Define la forma del botón (bordes redondeados)
+    val shape = RoundedCornerShape(Dimens.ButtonRadius)
 
+    // Si el botón es de tipo Outline (solo borde)
     if (variant == ButtonVariant.Outline) {
         OutlinedButton(
             onClick = onClick,
@@ -58,17 +63,21 @@ fun AppButton(
             colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.onSurface),
             border = ButtonDefaults.outlinedButtonBorder()
         ) {
+            // Si tiene icono, lo muestra antes del texto
             if (leadingIcon != null) {
                 Icon(leadingIcon, null)
                 Spacer(Modifier.width(8.dp))
             }
+            // Texto del botón
             Text(
                 text,
                 fontWeight = FontWeight.SemiBold,
                 color = textColor ?: LocalContentColor.current
             )
         }
-    } else {
+    }
+    // Si el botón es de cualquier otro tipo (Primary, Secondary, Black)
+    else {
         Button(
             onClick = onClick,
             enabled = enabled,
@@ -77,14 +86,16 @@ fun AppButton(
             contentPadding = PaddingValues(horizontal = 16.dp),
             colors = btnColors
         ) {
+            // Si tiene icono, lo muestra antes del texto
             if (leadingIcon != null) {
                 Icon(leadingIcon, null)
                 Spacer(Modifier.width(8.dp))
             }
+            // Texto del botón
             Text(
                 text,
                 fontWeight = FontWeight.SemiBold,
-                color = textColor ?: LocalContentColor.current   // ← override si se pasa
+                color = textColor ?: LocalContentColor.current   // Usa color custom si se pasa
             )
         }
     }

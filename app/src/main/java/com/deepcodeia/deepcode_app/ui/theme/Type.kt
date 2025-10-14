@@ -6,29 +6,19 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
+// Tipografía personalizada para DeepCodeApp
+val DeepTypography = Typography(
+    // Estilo para títulos grandes
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Bold,      // Texto en negrita
+        fontSize = 24.sp,                  // Tamaño grande
+        color = DeepNeon                   // Color principal (verde neón)
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+
+    // Estilo para texto principal o párrafos
+    bodyMedium = TextStyle(
+        fontWeight = FontWeight.Normal,    // Peso normal
+        fontSize = 16.sp,                  // Tamaño estándar
+        color = DeepOnBackground           // Color del texto sobre el fondo
     )
-    */
 )

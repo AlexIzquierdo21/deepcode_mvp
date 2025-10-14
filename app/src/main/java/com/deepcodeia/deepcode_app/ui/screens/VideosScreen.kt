@@ -14,20 +14,29 @@ import androidx.compose.ui.graphics.Color
 import com.deepcodeia.deepcode_app.ui.components.AppButton
 import com.deepcodeia.deepcode_app.ui.components.ButtonVariant
 
+// Pantalla con accesos directos a las playlists de YouTube
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideosScreen(
-    playlistId: String = "PLDkQmEYGZru8fgGR9JM7Lp-BSKD8Xz9-G",
-    secondaryPlaylistId: String = "PLDkQmEYGZru-z9VtbV89b-myzSymIGEvg",
-    onBack: () -> Unit = {}
+    playlistId: String = "PLDkQmEYGZru8fgGR9JM7Lp-BSKD8Xz9-G",           // ID de la playlist principal
+    secondaryPlaylistId: String = "PLDkQmEYGZru-z9VtbV89b-myzSymIGEvg",   // ID de la segunda playlist
+    onBack: () -> Unit = {}                                                // Acción al pulsar "Volver"
 ) {
-    val context = LocalContext.current
+    val context = LocalContext.current   // Contexto actual (necesario para abrir URLs externas)
 
+    // Estructura base con barra superior
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Vídeos", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold) },
+                title = {
+                    Text(
+                        "Vídeos",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
                 navigationIcon = {
+                    // Botón de volver atrás
                     TextButton(onClick = onBack) {
                         Text("← Volver", color = MaterialTheme.colorScheme.onBackground)
                     }
@@ -39,6 +48,7 @@ fun VideosScreen(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
+        // Contenido principal
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -47,7 +57,7 @@ fun VideosScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
+            // Botón que abre la playlist "Aprendiendo Python desde cero"
             AppButton(
                 text = "Aprendiendo Python desde cero",
                 onClick = {
@@ -59,6 +69,7 @@ fun VideosScreen(
                 textColor = Color.Black
             )
 
+            // Botón que abre la playlist "Estructuras de datos"
             AppButton(
                 text = "Estructuras de datos",
                 onClick = {
@@ -72,5 +83,6 @@ fun VideosScreen(
         }
     }
 }
+
 
 
