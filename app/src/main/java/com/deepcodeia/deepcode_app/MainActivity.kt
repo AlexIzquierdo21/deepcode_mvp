@@ -7,9 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.deepcodeia.deepcode_app.ui.HomeScreen
-import com.deepcodeia.deepcode_app.ui.LoginScreen
-import com.deepcodeia.deepcode_app.ui.VideosScreen
+import com.deepcodeia.deepcode_app.ui.screens.HomeScreen
+import com.deepcodeia.deepcode_app.ui.screens.LoginScreen
+import com.deepcodeia.deepcode_app.ui.screens.VideosScreen
 import com.deepcodeia.deepcode_app.ui.theme.DeepCode_AppTheme
 
 class MainActivity : ComponentActivity() {

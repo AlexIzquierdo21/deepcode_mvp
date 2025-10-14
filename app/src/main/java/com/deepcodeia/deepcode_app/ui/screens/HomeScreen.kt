@@ -1,32 +1,31 @@
-package com.deepcodeia.deepcode_app.ui
+package com.deepcodeia.deepcode_app.ui.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.foundation.background
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Task
-import androidx.compose.ui.unit.dp
 import com.deepcodeia.deepcode_app.R
-import androidx.compose.material3.MaterialTheme
 import com.deepcodeia.deepcode_app.ui.theme.Dimens
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onVideosClick: () -> Unit = {},
@@ -35,9 +34,29 @@ fun HomeScreen(
     onProfileClick: () -> Unit = {},
     onLogout: () -> Unit = {},
 ) {
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-        Box(Modifier.fillMaxSize()) {
-
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        "Menú",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                )
+            )
+        },
+        containerColor = Color.Transparent
+    ) { innerPadding ->
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            // Fondo
             Image(
                 painter = painterResource(R.drawable.fondo_homescreen),
                 contentDescription = null,
@@ -45,12 +64,14 @@ fun HomeScreen(
                 contentScale = ContentScale.Crop
             )
 
+            // Capa oscura para legibilidad
             Box(
                 Modifier
                     .fillMaxSize()
                     .background(Color(0x99000000)) // 60% negro
             )
 
+            // Contenido principal
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -59,13 +80,7 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(
-                    "Menú",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 34.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
+                // Fila 1
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -73,8 +88,10 @@ fun HomeScreen(
                     MenuTile("Vídeos", Icons.Filled.PlayArrow, onVideosClick, Modifier.weight(1f))
                     MenuTile("Retos", Icons.Filled.Task, onChallengesClick, Modifier.weight(1f))
                 }
+
                 Spacer(Modifier.height(16.dp))
 
+                // Fila 2
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -84,11 +101,16 @@ fun HomeScreen(
                 }
 
                 Spacer(Modifier.height(6.dp))
-                Text("DeepCodeApp", color = MaterialTheme.colorScheme.secondary, fontSize = 18.sp)
+                Text(
+                    "DeepCodeApp",
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 18.sp
+                )
             }
         }
     }
 }
+
 @Composable
 private fun MenuTile(
     label: String,

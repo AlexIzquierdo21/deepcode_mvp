@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui
+package com.deepcodeia.deepcode_app.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -24,6 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.R
 import androidx.compose.material3.Divider
+import com.deepcodeia.deepcode_app.ui.components.AppButton
+import com.deepcodeia.deepcode_app.ui.components.ButtonVariant
+
 
 
 @Composable
@@ -107,21 +110,13 @@ fun LoginScreen(onLogin: () -> Unit = {}){
 
                 Spacer(Modifier.height(20.dp))
 
-                Button(
+                AppButton(
+                    text = "Iniciar sesión",
                     onClick = onLogin,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                ) { Text(
-                    "Iniciar sesión",
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                    ) }
+                    modifier = Modifier.fillMaxWidth(),
+                    variant = ButtonVariant.Primary,
+                    textColor = Color.Black
+                )
 
                 Spacer(Modifier.height(18.dp))
 
@@ -131,9 +126,11 @@ fun LoginScreen(onLogin: () -> Unit = {}){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Divider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
-                    Text("  O inicia sesión con  ",
+                    Text(
+                        "  O Inicia Sesión con  ",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 13.sp)
+                        fontSize = 13.sp
+                    )
                     Divider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
                 }
 
@@ -160,6 +157,7 @@ fun LoginScreen(onLogin: () -> Unit = {}){
         }
     }
 }
+
 
 @Composable
 private fun SocialCircle(iconRes: Int) {
