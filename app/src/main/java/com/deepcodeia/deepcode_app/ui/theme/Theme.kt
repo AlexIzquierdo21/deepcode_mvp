@@ -21,7 +21,7 @@ private val DeepColorScheme = darkColorScheme(
     outline = DeepBorder                // Bordes, divisores y contornos
 )
 
-// 🌙 Tema global de la aplicación que unifica colores, tipografía y formas
+// Tema global de la aplicación que unifica colores, tipografía y formas
 @Composable
 fun DeepCode_AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
