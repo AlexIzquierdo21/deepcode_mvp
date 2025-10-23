@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 /**
  * Paleta de colores personalizada para DeepCodeApp
  * Define todos los colores base usados en el tema oscuro de la aplicación
- */
+ **/
 
 // Colores de fondo y superficies
 val DeepBg = Color(0xFF0B0B0B)              // Fondo principal (negro profundo)

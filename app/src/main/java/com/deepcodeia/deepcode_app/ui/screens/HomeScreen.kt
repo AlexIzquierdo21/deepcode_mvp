@@ -28,6 +28,7 @@ import com.deepcodeia.deepcode_app.ui.theme.Dimens
 // Pantalla principal de la app con el menú de navegación
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+//@Preview (ShowBackground = True)
 fun HomeScreen(
     onVideosClick: () -> Unit = {},           // Acción al pulsar "Vídeos"
     onChallengesClick: () -> Unit = {},       // Acción al pulsar "Retos"
@@ -130,7 +131,7 @@ private fun MenuTile(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline), // Borde gris
         modifier = modifier
             .height(Dimens.TileHeight)
-            .clickable { onClick() }                     // Acción al hacer click
+            .clickable { onClick() }        // Acción al hacer click
     ) {
         // Contenido del tile (icono + texto)
         Column(
