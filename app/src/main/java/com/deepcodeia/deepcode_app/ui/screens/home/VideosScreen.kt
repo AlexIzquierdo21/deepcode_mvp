@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui.screens
+package com.deepcodeia.deepcode_app.ui.screens.home
 
 import android.content.Intent
 import android.net.Uri

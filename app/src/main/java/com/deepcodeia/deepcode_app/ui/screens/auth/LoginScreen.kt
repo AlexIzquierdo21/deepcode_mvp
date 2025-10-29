@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui.screens
+package com.deepcodeia.deepcode_app.ui.screens.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

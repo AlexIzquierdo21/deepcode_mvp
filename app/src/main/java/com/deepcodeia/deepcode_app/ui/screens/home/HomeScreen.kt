@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui.screens
+package com.deepcodeia.deepcode_app.ui.screens.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -72,7 +72,7 @@ fun HomeScreen(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(Color(0x99000000)) // ~60% negro
+                    .background(Color(0x99000000)) // 60% negro
             )
 
             // Contenido principal centrado
