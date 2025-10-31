@@ -7,11 +7,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.deepcodeia.deepcode_app.navigation.Route
-import com.deepcodeia.deepcode_app.ui.screens.auth.LoginScreen
+import com.deepcodeia.deepcode_app.ui.screens.auth.RegisterEntry
+import com.deepcodeia.deepcode_app.ui.screens.auth.login.LoginEntry
 
 /**
  * Grafo de navegación para el flujo de autenticación.
- * Contiene: Login, Register (futuro), RecoverPassword (futuro)
  */
 fun NavGraphBuilder.authGraph(
     navController: NavHostController,
@@ -24,15 +24,22 @@ fun NavGraphBuilder.authGraph(
     ) {
         // Pantalla de Login
         composable(Route.Login.route) {
-            LoginScreen(
-                onLogin = {
-                    navController.navigate(Route.Home.route) {
-                        popUpTo("auth") { inclusive = true }
-                    }
-                }
+            LoginEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
             )
         }
 
-        // TODO: Añadir Register y RecoverPassword cuando estén creadas
+        // Pantalla de Registro
+        composable(Route.Register.route) {
+            RegisterEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
+            )
+        }
+
+        // TODO: Añadir RecoverPassword cuando esté creada
     }
 }

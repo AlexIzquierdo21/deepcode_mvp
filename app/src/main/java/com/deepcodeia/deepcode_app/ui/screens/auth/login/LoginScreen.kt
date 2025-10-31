@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui.screens.auth
+package com.deepcodeia.deepcode_app.ui.screens.auth.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -10,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,21 +23,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.R
-import androidx.compose.material3.Divider
 import com.deepcodeia.deepcode_app.ui.components.AppButton
 import com.deepcodeia.deepcode_app.ui.components.ButtonVariant
+import com.deepcodeia.deepcode_app.ui.screens.auth.login.LoginUiState
 
-// Pantalla de inicio de sesión de la aplicación
+/**
+ * Pantalla de inicio de sesión (UI pura).
+ * No contiene lógica de negocio, solo recibe estado y callbacks.
+ */
 @Composable
-fun LoginScreen(onLogin: () -> Unit = {}) {
-    // Fondo principal
+fun LoginScreen(
+    state: LoginUiState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLoginClick: () -> Unit,
+    onRegisterClick: () ->Unit
+) {
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp)
         ) {
-            // Contenedor principal centrado
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -66,18 +73,15 @@ fun LoginScreen(onLogin: () -> Unit = {}) {
 
                 Spacer(Modifier.height(28.dp))
 
-                // Campos de entrada: email y contraseña
-                var email by remember { mutableStateOf("") }
-                var password by remember { mutableStateOf("") }
-
                 // Campo de correo electrónico
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = state.email,
+                    onValueChange = onEmailChange,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text("Correo electrónico") },
                     leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
                     singleLine = true,
+                    isError = state.emailError != null,
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -89,17 +93,30 @@ fun LoginScreen(onLogin: () -> Unit = {}) {
                     )
                 )
 
+                // Mostrar error de email si existe
+                state.emailError?.let { error ->
+                    Text(
+                        text = error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, top = 4.dp)
+                    )
+                }
+
                 Spacer(Modifier.height(14.dp))
 
                 // Campo de contraseña
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = onPasswordChange,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text("Contraseña") },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                     singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(), // Oculta el texto
+                    isError = state.passwordError != null,
+                    visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -112,15 +129,40 @@ fun LoginScreen(onLogin: () -> Unit = {}) {
                     )
                 )
 
+                // Mostrar error de password si existe
+                state.passwordError?.let { error ->
+                    Text(
+                        text = error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, top = 4.dp)
+                    )
+                }
+
                 Spacer(Modifier.height(20.dp))
+
+                // Error general de submit
+                state.submitError?.let { error ->
+                    Text(
+                        text = error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(Modifier.height(12.dp))
+                }
 
                 // Botón principal de inicio de sesión
                 AppButton(
-                    text = "Iniciar sesión",
-                    onClick = onLogin,
+                    text = if (state.isLoading) "Cargando..." else "Iniciar sesión",
+                    onClick = onLoginClick,
                     modifier = Modifier.fillMaxWidth(),
                     variant = ButtonVariant.Primary,
-                    textColor = Color.Black
+                    textColor = Color.Black,
+                    enabled = state.isValid && !state.isLoading
                 )
 
                 Spacer(Modifier.height(18.dp))
@@ -130,13 +172,13 @@ fun LoginScreen(onLogin: () -> Unit = {}) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Divider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
+                    HorizontalDivider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
                     Text(
                         "  O Inicia Sesión con  ",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 13.sp
                     )
-                    Divider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
+                    HorizontalDivider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outline)
                 }
 
                 Spacer(Modifier.height(14.dp))
@@ -153,12 +195,14 @@ fun LoginScreen(onLogin: () -> Unit = {}) {
                 Spacer(Modifier.height(18.dp))
 
                 // Enlace de registro
-                Text(
-                    text = "¿No tienes cuenta? Regístrate aquí",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center
-                )
+                TextButton(onClick = onRegisterClick) {
+                    Text(
+                        text = "¿No tienes cuenta? Regístrate aquí",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
