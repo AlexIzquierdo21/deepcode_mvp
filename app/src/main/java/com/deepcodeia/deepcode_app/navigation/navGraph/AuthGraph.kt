@@ -12,6 +12,7 @@ import com.deepcodeia.deepcode_app.ui.screens.auth.login.LoginEntry
 
 /**
  * Grafo de navegación para el flujo de autenticación.
+ * Configurar
  */
 fun NavGraphBuilder.authGraph(
     navController: NavHostController,

@@ -2,48 +2,83 @@ package com.deepcodeia.deepcode_app.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.MutablePreferences
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import androidx.datastore.preferences.core.Preferences
+import javax.inject.Inject
+import javax.inject.Singleton
 
-// Clase para guardar y leer los datos de login (usuario y contraseña)
-class LoginDataStore(private val context: Context) {
+// Extension property para crear el DataStore
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("LoginDataStore")
 
+/**
+ * Clase para guardar y leer los datos de login y el token JWT.
+ */
+@Singleton
+class LoginDataStore @Inject constructor(
+    private val context: Context
+) {
     companion object {
-        // Se crea una instancia única de DataStore llamada "LoginDataStore"
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("LoginDataStore")
-        // Claves para guardar los valores de usuario y contraseña
         private val USERNAME = stringPreferencesKey("userName")
         private val PASSWORD = stringPreferencesKey("password")
+        private val TOKEN = stringPreferencesKey("token")
     }
 
-    // Flujo que emite los datos guardados (usuario y contraseña)
-    // Cada vez que cambian los datos en el DataStore, este Flow emite un nuevo LoginModel
+    /**
+     * Flow que emite los datos de login guardados.
+     */
     val loginModel: Flow<LoginModel> =
         context.dataStore.data.map { preferences ->
             LoginModel(
-                preferences[USERNAME] ?: "", // Si no hay valor guardado, devuelve ""
+                preferences[USERNAME] ?: "",
                 preferences[PASSWORD] ?: ""
             )
         }
 
-    // Función para guardar los datos de login (usuario y contraseña) en el DataStore
+    /**
+     * Flow que emite el token JWT guardado.
+     */
+    val token: Flow<String?> =
+        context.dataStore.data.map { preferences ->
+            preferences[TOKEN]
+        }
+
+    /**
+     * Guarda los datos de login.
+     */
     suspend fun saveLoginData(loginModel: LoginModel) {
         context.dataStore.edit { preferences ->
             preferences[USERNAME] = loginModel.userName
             preferences[PASSWORD] = loginModel.password
         }
     }
+
+    /**
+     * Guarda el token JWT.
+     */
+    suspend fun saveToken(token: String) {
+        context.dataStore.edit { preferences ->
+            preferences[TOKEN] = token
+        }
+    }
+
+    /**
+     * Limpia todos los datos guardados (logout).
+     */
+    suspend fun clearData() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
 }
 
-private fun DataStore<Preferences>.edit(transform: suspend (MutablePreferences) -> Unit) {
-    TODO("No está implementado")
-}
-
-// Data class que representa el modelo de login
-// Contiene solo el nombre de usuario y la contraseña
-data class LoginModel(val userName: String, val password: String)
+/**
+ * Data class que representa el modelo de login.
+ */
+data class LoginModel(
+    val userName: String,
+    val password: String
+)
