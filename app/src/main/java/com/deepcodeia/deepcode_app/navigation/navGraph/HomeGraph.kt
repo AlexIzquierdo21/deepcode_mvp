@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.deepcodeia.deepcode_app.navigation.Route
 import com.deepcodeia.deepcode_app.ui.screens.home.HomeScreen
 import com.deepcodeia.deepcode_app.ui.screens.home.VideosScreen
+import com.deepcodeia.deepcode_app.ui.screens.profile.ProfileEntry
 
 /**
  * Grafo de navegación para el flujo principal de la app.
@@ -46,7 +47,15 @@ fun NavGraphBuilder.homeGraph(
                 onBack = { navController.popBackStack() }
             )
         }
+        // Pantalla de Perfil (NUEVA)
+        composable(Route.Profile.route) {
+            ProfileEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
+            )
+        }
 
-        // TODO: Añadir Challenges, CreateChallenge y Profile cuando estén creadas
+        // TODO: Añadir Challenges, CreateChallenge cuando estén creadas
     }
 }

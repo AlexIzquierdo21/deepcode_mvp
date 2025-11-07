@@ -7,7 +7,6 @@ import com.deepcodeia.deepcode_app.data.remote.dto.LoginRequest
 import com.deepcodeia.deepcode_app.data.remote.dto.RegisterRequest
 import com.deepcodeia.deepcode_app.domain.model.User
 import com.deepcodeia.deepcode_app.domain.repository.AuthRepository
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
             dataStore.saveLoginData(
                 LoginModel(
                     userName = response.email,
-                    password = "" // No guardamos la password
+                    password = "" // No guardamos password
                 )
             )
             dataStore.saveToken(response.token)

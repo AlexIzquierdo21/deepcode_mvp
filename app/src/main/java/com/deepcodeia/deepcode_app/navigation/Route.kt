@@ -2,6 +2,9 @@ package com.deepcodeia.deepcode_app.navigation
 
 sealed class Route(val route: String) {
 
+    // Splash (pantalla inicial)
+    data object Splash : Route("splash")
+
     // Auth flow
     data object Login : Route("login")
     data object Register : Route("register")
@@ -9,9 +12,9 @@ sealed class Route(val route: String) {
     // Home flow
     data object Home : Route("home")
     data object Videos : Route("videos")
+    data object Profile : Route("profile")
 
     // Futuras pantallas
     // data object Challenges : Route("challenges")
     // data object CreateChallenge : Route("create_challenge")
-    // data object Profile : Route("profile")
 }

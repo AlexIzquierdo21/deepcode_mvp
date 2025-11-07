@@ -89,8 +89,10 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    MenuTile("Vídeos", Icons.Filled.PlayArrow, onVideosClick, Modifier.weight(1f))
-                    MenuTile("Retos", Icons.Filled.Task, onChallengesClick, Modifier.weight(1f))
+                    MenuTile("Vídeos", Icons.Filled.PlayArrow,
+                        onVideosClick, Modifier.weight(1f))
+                    MenuTile("Retos", Icons.Filled.Task,
+                        onChallengesClick, Modifier.weight(1f))
                 }
 
                 Spacer(Modifier.height(16.dp))
@@ -100,8 +102,10 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    MenuTile("Crear Reto", Icons.Filled.AddCircle, onCreateChallengeClick, Modifier.weight(1f))
-                    MenuTile("Perfil", Icons.Filled.Person, onProfileClick, Modifier.weight(1f))
+                    MenuTile("Crear Reto", Icons.Filled.AddCircle,
+                        onCreateChallengeClick, Modifier.weight(1f))
+                    MenuTile("Perfil", Icons.Filled.Person,
+                        onProfileClick, Modifier.weight(1f))
                 }
 
                 Spacer(Modifier.height(6.dp))
@@ -109,7 +113,7 @@ fun HomeScreen(
                 Text(
                     "DeepCodeApp",
                     color = MaterialTheme.colorScheme.secondary,
-                    fontSize = 18.sp
+                    fontSize = 25.sp
                 )
             }
         }
