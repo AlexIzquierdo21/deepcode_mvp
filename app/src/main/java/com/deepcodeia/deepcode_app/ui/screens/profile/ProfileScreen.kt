@@ -3,6 +3,7 @@ package com.deepcodeia.deepcode_app.ui.screens.profile
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
@@ -15,22 +16,13 @@ import androidx.compose.ui.unit.sp
 
 /**
  * ProfileScreen (UI pura)
- *
- * Pantalla de perfil del usuario que muestra:
- * - Avatar circular con icono de persona
- * - Nombre de usuario y email
- * - Card con progreso de retos (barra de progreso + estadísticas)
- * - Botón de cerrar sesión
- *
- * No contiene lógica de negocio, solo recibe estado y callbacks.
- *
- * @param state Estado actual del perfil (username, email, progreso)
- * @param onLogoutClick Callback ejecutado al pulsar "Cerrar Sesión"
+ * Pantalla de perfil del usuario con botón de volver, avatar, info y logout.
  */
 @Composable
 fun ProfileScreen(
     state: ProfileUiState,
-    onLogoutClick: () -> Unit
+    onLogoutClick: () -> Unit,
+    onBack: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -42,12 +34,23 @@ fun ProfileScreen(
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(40.dp))
+            // Botón de volver atrás
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Volver",
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+            }
 
-            /**
-             * Avatar circular del usuario.
-             * Fondo en color primario con icono de persona centrado.
-             */
+            Spacer(Modifier.height(20.dp))
+
+            // Avatar del usuario
             Surface(
                 modifier = Modifier.size(120.dp),
                 shape = CircleShape,
@@ -65,7 +68,7 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            // Nombre de usuario (del estado)
+            // Nombre de usuario
             Text(
                 text = state.username,
                 fontSize = 28.sp,
@@ -75,7 +78,7 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(8.dp))
 
-            // Email del usuario (del estado)
+            // Email
             Text(
                 text = state.email,
                 fontSize = 16.sp,
@@ -84,13 +87,7 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(40.dp))
 
-            /**
-             * Card de progreso de retos.
-             * Muestra:
-             * - Título "Progreso de Retos"
-             * - LinearProgressIndicator con porcentaje calculado
-             * - Texto "X de Y retos completados"
-             */
+            // Card de progreso
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -109,11 +106,6 @@ fun ProfileScreen(
 
                     Spacer(Modifier.height(16.dp))
 
-                    /**
-                     * Barra de progreso lineal.
-                     * El progreso se calcula en ProfileUiState.progressPercentage
-                     * (completedChallenges / totalChallenges)
-                     */
                     LinearProgressIndicator(
                         progress = { state.progressPercentage },
                         modifier = Modifier
@@ -124,7 +116,6 @@ fun ProfileScreen(
 
                     Spacer(Modifier.height(12.dp))
 
-                    // Texto descriptivo del progreso
                     Text(
                         text = "${state.completedChallenges} de ${state.totalChallenges} retos completados",
                         fontSize = 14.sp,
@@ -133,14 +124,9 @@ fun ProfileScreen(
                 }
             }
 
-            // Spacer flexible que empuja el botón hacia abajo
             Spacer(Modifier.weight(1f))
 
-            /**
-             * Botón de cerrar sesión.
-             * Color rojo (error) para indicar acción destructiva.
-             * Al pulsarlo ejecuta onLogoutClick que limpia el token y navega a Login.
-             */
+            // Botón de logout
             Button(
                 onClick = onLogoutClick,
                 modifier = Modifier.fillMaxWidth(),

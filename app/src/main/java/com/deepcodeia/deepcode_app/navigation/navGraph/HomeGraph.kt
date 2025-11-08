@@ -30,7 +30,7 @@ fun NavGraphBuilder.homeGraph(
                 onVideosClick = { navController.navigate(Route.Videos.route) },
                 onChallengesClick = { /* TODO: navegar cuando exista */ },
                 onCreateChallengeClick = { /* TODO: navegar cuando exista */ },
-                onProfileClick = { /* TODO: navegar cuando exista */ },
+                onProfileClick = { navController.navigate(Route.Profile.route) },
                 onLogout = {
                     navController.navigate("auth") {
                         popUpTo("home_flow") { inclusive = true }

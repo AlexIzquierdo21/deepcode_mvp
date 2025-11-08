@@ -35,18 +35,15 @@ fun ProfileEntry(
     snackbarHostState: SnackbarHostState,
     contentPadding: PaddingValues
 ) {
-    // Inyectar ViewModel con Hilt
     val viewModel: ProfileViewModel = hiltViewModel()
 
-    // Manejar eventos de navegación (como logout)
     HandleNavigationEvents(navController, snackbarHostState, viewModel.events)
 
-    // Observar el estado
     val state by viewModel.state.collectAsState()
 
-    // Renderizar UI con callbacks al ViewModel
     ProfileScreen(
         state = state,
-        onLogoutClick = viewModel::onLogoutClick
+        onLogoutClick = viewModel::onLogoutClick,
+        onBack = { navController.popBackStack() }
     )
 }
