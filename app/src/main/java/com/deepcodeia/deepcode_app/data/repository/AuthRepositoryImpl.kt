@@ -22,6 +22,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun login(email: String, password: String): Result<User> {
         return try {
+            // Llama al backend con Retrofit
             val response = authApiService.login(
                 LoginRequest(email = email, password = password)
             )

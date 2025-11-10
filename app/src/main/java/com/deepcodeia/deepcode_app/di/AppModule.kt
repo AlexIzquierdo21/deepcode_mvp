@@ -18,9 +18,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
- * ----------------------------------------------------------------------------
  * NetworkModule - Configuración de Retrofit y OkHttp
- * ----------------------------------------------------------------------------
+ *
  * Provee las dependencias relacionadas con la red:
  * - HttpLoggingInterceptor: Para ver logs de peticiones HTTP en Logcat
  * - OkHttpClient: Cliente HTTP con timeouts y logging

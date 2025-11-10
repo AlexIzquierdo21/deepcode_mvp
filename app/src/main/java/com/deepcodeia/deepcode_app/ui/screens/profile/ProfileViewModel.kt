@@ -24,6 +24,7 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Estado inmutable que consume la UI
+    // **** ACTUALMENTE SIMULO EL PROGRESO ****
     private val _state = MutableStateFlow(ProfileUiState(
         username = "Usuario Test",  // TODO: Obtener del backend
         email = "test@deepcode.com", // TODO: Obtener del backend
