@@ -26,7 +26,6 @@ class LoginDataStore @Inject constructor(
         private val PASSWORD = stringPreferencesKey("password")
         private val TOKEN = stringPreferencesKey("token")
     }
-
     /**
      * Flow que emite los datos de login guardados.
      */
@@ -37,7 +36,6 @@ class LoginDataStore @Inject constructor(
                 preferences[PASSWORD] ?: ""
             )
         }
-
     /**
      * Flow que emite el token JWT guardado.
      */
@@ -45,7 +43,6 @@ class LoginDataStore @Inject constructor(
         context.dataStore.data.map { preferences ->
             preferences[TOKEN]
         }
-
     /**
      * Guarda los datos de login.
      */
@@ -55,7 +52,6 @@ class LoginDataStore @Inject constructor(
             preferences[PASSWORD] = loginModel.password
         }
     }
-
     /**
      * Guarda el token JWT.
      */
@@ -64,7 +60,6 @@ class LoginDataStore @Inject constructor(
             preferences[TOKEN] = token
         }
     }
-
     /**
      * Limpia todos los datos guardados (logout).
      */
@@ -74,7 +69,6 @@ class LoginDataStore @Inject constructor(
         }
     }
 }
-
 /**
  * Data class que representa el modelo de login.
  */

@@ -3,7 +3,8 @@ package com.deepcodeia.deepcode_app.ui.screens.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deepcodeia.deepcode_app.data.LoginDataStore
-import com.deepcodeia.deepcode_app.navigation.Route
+import com.deepcodeia.deepcode_app.domain.usecase.user.GetCurrentUserUseCase
+import com.deepcodeia.deepcode_app.domain.usecase.user.GetUserProgressUseCase
 import com.deepcodeia.deepcode_app.navigation.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -16,35 +17,73 @@ import javax.inject.Inject
 
 /**
  * ViewModel de la pantalla de Perfil.
- * Gestiona la información del usuario y el logout.
+ * Obtiene datos reales del backend: información del usuario y progreso de retos.
  */
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val dataStore: LoginDataStore
+    private val dataStore: LoginDataStore,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getUserProgressUseCase: GetUserProgressUseCase
 ) : ViewModel() {
 
     // Estado inmutable que consume la UI
-    // **** ACTUALMENTE SIMULO EL PROGRESO ****
-    private val _state = MutableStateFlow(ProfileUiState(
-        username = "Usuario Test",  // TODO: Obtener del backend
-        email = "test@deepcode.com", // TODO: Obtener del backend
-        completedChallenges = 5,     // TODO: Obtener del backend
-        totalChallenges = 20         // TODO: Obtener del backend
-    ))
+    private val _state = MutableStateFlow(ProfileUiState(isLoading = true))
     val state: StateFlow<ProfileUiState> = _state.asStateFlow()
 
     // Canal de eventos de UI
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
 
+    init {
+        loadUserData()
+    }
+
+    /**
+     * Carga los datos del usuario y su progreso desde el backend.
+     */
+    private fun loadUserData() = viewModelScope.launch {
+        _state.value = _state.value.copy(isLoading = true)
+
+        // Obtener información del usuario
+        val userResult = getCurrentUserUseCase()
+
+        // Obtener progreso de retos
+        val progressResult = getUserProgressUseCase()
+
+        // Procesar resultados
+        if (userResult.isSuccess && progressResult.isSuccess) {
+            val user = userResult.getOrNull()!!
+            val progressList = progressResult.getOrNull()!!
+
+            // Calcular estadísticas
+            val completed = progressList.count { it.status == "COMPLETED" }
+            val total = progressList.size
+
+            _state.value = ProfileUiState(
+                username = user.name ?: "Usuario",
+                email = user.email,
+                completedChallenges = completed,
+                totalChallenges = total,
+                isLoading = false
+            )
+        } else {
+            // Error al cargar datos - mostrar datos vacíos
+            _state.value = ProfileUiState(
+                username = "Error",
+                email = "No se pudo cargar",
+                completedChallenges = 0,
+                totalChallenges = 0,
+                isLoading = false
+            )
+        }
+    }
+
     /**
      * Cierra sesión: limpia el DataStore y navega a Login.
      */
     fun onLogoutClick() = viewModelScope.launch {
-        // Limpiar token y datos guardados
         dataStore.clearData()
 
-        // Navegar a auth y limpiar todo el stack
         _events.send(
             UiEvent.Navigate(
                 route = "auth",

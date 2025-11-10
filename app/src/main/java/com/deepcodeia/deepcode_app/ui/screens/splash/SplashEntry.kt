@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
  * SplashEntry
- * ----------------------------------------------------------------------------
+ *
  * Punto de entrada para la pantalla de Splash.
  *
  * Responsabilidades:

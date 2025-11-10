@@ -57,7 +57,7 @@ fun SplashScreen(
         when (hasToken) {
             true -> onNavigateToHome()   // Hay sesión activa → Home
             false -> onNavigateToAuth()  // No hay sesión → Login
-            null -> { /* Todavía verificando, no hacer nada */ }
+            null -> { /* Verificando, no hacer nada */ }
         }
     }
 
