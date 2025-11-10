@@ -8,7 +8,7 @@ data class UserProgressDto(
     val id: Long,
     val challengeId: Long,
     val challengeTitle: String,
-    val status: String,  // "PENDING" o "COMPLETED" EnumClass BACKEND
+    val status: String,  // "PENDING" o "COMPLETED"
     val notes: String?,
     val completedAt: String?
 )

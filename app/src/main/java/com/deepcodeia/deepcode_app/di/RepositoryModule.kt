@@ -13,9 +13,8 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * ----------------------------------------------------------------------------
  * RepositoryModule - Vincula interfaces con implementaciones
- * ----------------------------------------------------------------------------
+ *
  * Este módulo conecta las interfaces del dominio (contratos) con sus
  * implementaciones concretas en la capa de datos.
  *
@@ -25,7 +24,6 @@ import javax.inject.Singleton
  * - domain/repository/XRepository (interfaz - QUÉ)
  * - data/repository/XRepositoryImpl (implementación - CÓMO)
  *
- * Beneficio: Puedes cambiar la implementación sin tocar el dominio.
  * Ejemplo: FakeAuthRepository → AuthRepositoryImpl sin cambiar UseCases.
  */
 @Module

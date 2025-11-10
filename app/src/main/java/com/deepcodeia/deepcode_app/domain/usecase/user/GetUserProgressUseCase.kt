@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 /**
  * Caso de uso: Obtener el progreso de retos del usuario.
- * Calcula estadísticas de retos completados vs totales.
+ * TODO: Calcular estadísticas de retos completados vs totales.
  */
 class GetUserProgressUseCase @Inject constructor(
     private val progressRepository: ProgressRepository
