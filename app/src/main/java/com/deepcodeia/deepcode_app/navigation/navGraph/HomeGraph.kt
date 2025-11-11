@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.deepcodeia.deepcode_app.navigation.Route
+import com.deepcodeia.deepcode_app.ui.screens.challenges.ChallengesEntry
 import com.deepcodeia.deepcode_app.ui.screens.home.HomeScreen
 import com.deepcodeia.deepcode_app.ui.screens.home.VideosScreen
 import com.deepcodeia.deepcode_app.ui.screens.profile.ProfileEntry
@@ -28,7 +29,7 @@ fun NavGraphBuilder.homeGraph(
         composable(Route.Home.route) {
             HomeScreen(
                 onVideosClick = { navController.navigate(Route.Videos.route) },
-                onChallengesClick = { /* TODO: navegar cuando exista */ },
+                onChallengesClick = { navController.navigate(Route.Challenges.route) },
                 onCreateChallengeClick = { /* TODO: navegar cuando exista */ },
                 onProfileClick = { navController.navigate(Route.Profile.route) },
                 onLogout = {
@@ -47,7 +48,7 @@ fun NavGraphBuilder.homeGraph(
                 onBack = { navController.popBackStack() }
             )
         }
-        // Pantalla de Perfil (NUEVA)
+        // Pantalla de Perfil
         composable(Route.Profile.route) {
             ProfileEntry(
                 navController = navController,
@@ -55,7 +56,15 @@ fun NavGraphBuilder.homeGraph(
                 contentPadding = contentPadding
             )
         }
+        // Pantalla de Retos (NUEVA)
+        composable(Route.Challenges.route) {
+            ChallengesEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
+            )
+        }
 
-        // TODO: Añadir Challenges, CreateChallenge cuando estén creadas
+        // TODO: Añadir CreateChallenge cuando estén creadas
     }
 }
