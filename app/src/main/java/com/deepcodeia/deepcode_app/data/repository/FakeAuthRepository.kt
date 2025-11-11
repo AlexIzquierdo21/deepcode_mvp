@@ -17,7 +17,7 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
 
     // Usuario fake para testing
     private val fakeUser = User(
-        id = "1",
+        id = 0,
         email = "test@test.com",
         name = "Usuario Test"
     )
@@ -50,7 +50,7 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
         // En una implementación real, aquí verificarías si el email ya existe
         return Result.success(
             User(
-                id = System.currentTimeMillis().toString(), // ID único fake
+                id = 0, // ID único fake
                 email = email,
                 name = name
             )

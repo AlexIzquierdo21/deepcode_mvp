@@ -42,10 +42,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.datastore:datastore-preferences:1.1.7")   /// Datastore
-    implementation("androidx.compose.material3:material3:1.3.0")
-    implementation("androidx.navigation:navigation-compose:2.8.2")
-    implementation("androidx.compose.material:material-icons-extended:1.7.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -64,12 +60,15 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+    implementation("androidx.datastore:datastore-preferences:1.1.7")   // Datastore
+    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation("androidx.navigation:navigation-compose:2.8.2")
+    implementation("androidx.compose.material:material-icons-extended:1.7.2")
     // Retrofit para llamadas HTTP
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
     // Gson para JSON
     implementation("com.google.code.gson:gson:2.10.1")
 }

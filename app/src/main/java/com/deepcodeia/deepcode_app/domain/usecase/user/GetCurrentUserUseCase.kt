@@ -13,7 +13,7 @@ class GetCurrentUserUseCase @Inject constructor(
 ) {
     /**
      * Obtiene la información del usuario autenticado desde el backend.
-     * @return Result con el User si es exitoso, o Exception si falla
+     * @return Result con el User si es exitoso.
      */
     suspend operator fun invoke(): Result<User> {
         return userRepository.getCurrentUser()

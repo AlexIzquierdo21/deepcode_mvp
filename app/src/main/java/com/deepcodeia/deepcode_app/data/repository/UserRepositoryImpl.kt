@@ -1,5 +1,6 @@
 package com.deepcodeia.deepcode_app.data.repository
 
+import android.util.Log
 import com.deepcodeia.deepcode_app.data.remote.UserApiService
 import com.deepcodeia.deepcode_app.domain.model.User
 import com.deepcodeia.deepcode_app.domain.repository.UserRepository
@@ -16,13 +17,14 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
 
     override suspend fun getCurrentUser(): Result<User> {
+        //val userDto = userApiService.getCurrentUser()
         return try {
             val userDto = userApiService.getCurrentUser()
 
             // Convertir DTO a entidad del dominio
             Result.success(
                 User(
-                    id = userDto.id.toString(),
+                    id = userDto.id,
                     email = userDto.email,
                     name = userDto.username
                 )

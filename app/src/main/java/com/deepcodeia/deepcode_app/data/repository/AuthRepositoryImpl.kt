@@ -39,7 +39,7 @@ class AuthRepositoryImpl @Inject constructor(
             // Convertir respuesta a modelo del dominio
             Result.success(
                 User(
-                    id = "", // El backend no devuelve el ID en login
+                    id = 0, // El backend no devuelve el ID en login
                     email = response.email,
                     name = response.username
                 )
@@ -66,7 +66,7 @@ class AuthRepositoryImpl @Inject constructor(
             // Convertir respuesta a modelo del dominio
             Result.success(
                 User(
-                    id = "",
+                    id = 0,
                     email = response.email,
                     name = response.username
                 )

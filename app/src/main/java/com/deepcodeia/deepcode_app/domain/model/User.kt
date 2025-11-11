@@ -5,7 +5,7 @@ package com.deepcodeia.deepcode_app.domain.model
  * Independiente de la implementación (API, BD, etc.)
  */
 data class User(
-    val id: String,
+    val id: Long,
     val email: String,
     val name: String? = null
 )

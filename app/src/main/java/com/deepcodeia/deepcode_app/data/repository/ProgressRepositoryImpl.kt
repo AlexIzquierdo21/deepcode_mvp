@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 /**
  * Implementación del repositorio de progreso.
- * Usa Retrofit para comunicarse con el backend.
+ * Usa Retrofit para comunicarse con el backend, mediante  ApiModule.kt.
  */
 @Singleton
 class ProgressRepositoryImpl @Inject constructor(

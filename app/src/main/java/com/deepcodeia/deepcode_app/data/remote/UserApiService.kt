@@ -13,6 +13,6 @@ interface UserApiService {
      * Requiere token JWT en el header Authorization.
      * GET /users/me
      */
-    @GET("users/me")
+    @GET("user/me")
     suspend fun getCurrentUser(): UserDto
 }
