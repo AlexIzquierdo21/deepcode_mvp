@@ -75,7 +75,7 @@ Representan las entidades del dominio de tu aplicación.
 ```kotlin
 // Product.kt
 data class Product(
-    val id: String,
+    val id: Long,
     val name: String,
     val price: Double,
     val stock: Int
@@ -94,7 +94,7 @@ Cada caso de uso representa una acción específica del usuario.
 class GetProductUseCase @Inject constructor(
     private val repository: ProductRepository
 ) {
-    suspend operator fun invoke(productId: String): Result<Product> {
+    suspend operator fun invoke(productId: Long): Result<Product> {
         return repository.getProduct(productId)
     }
 }
@@ -380,7 +380,7 @@ Y Hilt se encarga del resto automáticamente.
 
 ---
 
-## Resumen rápido
+## Resumen 
 
 | Capa | Responsabilidad | Ejemplo |
 |------|----------------|---------|
@@ -392,11 +392,3 @@ Y Hilt se encarga del resto automáticamente.
 
 ---
 
-## Siguiente paso
-
-Ahora que entiendes la arquitectura, el siguiente paso es:
-1. Configurar Hilt en el proyecto
-2. Crear la estructura de carpetas
-3. Migrar cada pantalla paso a paso
-
-¿Listo para empezar la migración?

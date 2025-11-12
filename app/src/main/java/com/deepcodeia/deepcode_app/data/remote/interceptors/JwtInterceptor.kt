@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.data.remote
+package com.deepcodeia.deepcode_app.data.remote.interceptors
 
 import com.deepcodeia.deepcode_app.data.LoginDataStore
 import kotlinx.coroutines.flow.first

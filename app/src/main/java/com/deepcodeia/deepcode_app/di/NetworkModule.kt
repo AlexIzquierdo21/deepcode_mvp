@@ -1,6 +1,6 @@
 package com.deepcodeia.deepcode_app.di
 
-import com.deepcodeia.deepcode_app.data.remote.JwtInterceptor
+import com.deepcodeia.deepcode_app.data.remote.interceptors.JwtInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

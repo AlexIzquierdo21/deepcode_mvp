@@ -15,7 +15,5 @@ sealed class Route(val route: String) {
     data object Profile : Route("profile")
     data object Challenges : Route("challenges")
 
-
-    // TODO Futuras pantallas
-    // data object CreateChallenge : Route("create_challenge")
+    data object CreateChallenge : Route("create_challenge")
 }

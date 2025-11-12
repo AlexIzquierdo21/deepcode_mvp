@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.deepcodeia.deepcode_app.navigation.Route
 import com.deepcodeia.deepcode_app.ui.screens.challenges.ChallengesEntry
+import com.deepcodeia.deepcode_app.ui.screens.createchallenge.CreateChallengeEntry
 import com.deepcodeia.deepcode_app.ui.screens.home.HomeScreen
 import com.deepcodeia.deepcode_app.ui.screens.home.VideosScreen
 import com.deepcodeia.deepcode_app.ui.screens.profile.ProfileEntry
@@ -30,7 +31,7 @@ fun NavGraphBuilder.homeGraph(
             HomeScreen(
                 onVideosClick = { navController.navigate(Route.Videos.route) },
                 onChallengesClick = { navController.navigate(Route.Challenges.route) },
-                onCreateChallengeClick = { /* TODO: navegar cuando exista */ },
+                onCreateChallengeClick = { navController.navigate(Route.CreateChallenge.route) },
                 onProfileClick = { navController.navigate(Route.Profile.route) },
                 onLogout = {
                     navController.navigate("auth") {
@@ -56,7 +57,7 @@ fun NavGraphBuilder.homeGraph(
                 contentPadding = contentPadding
             )
         }
-        // Pantalla de Retos (NUEVA)
+        // Pantalla de Retos
         composable(Route.Challenges.route) {
             ChallengesEntry(
                 navController = navController,
@@ -65,6 +66,27 @@ fun NavGraphBuilder.homeGraph(
             )
         }
 
-        // TODO: Añadir CreateChallenge cuando estén creadas
+        // Pantalla de Crear Reto (NUEVA)
+        composable(Route.CreateChallenge.route) {
+            CreateChallengeEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
+            )
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
