@@ -31,5 +31,17 @@ fun ChallengesEntry(
         },
         onBack = { navController.popBackStack() }
 
+        /**
+         * Anidar en un try-catch??; ha funcionado una vez de 100
+         *
+         *  try {
+         *      nav.Controller.popBackStack()
+         *  } catch (e: Exception) {
+         *      println("Error al navegar: ${e.message}
+         *
+         * ====== HE PROBADO ====== APARECE MENSAJE...
+         * Log.d("DEBUG: Botón volver pulsado")
+         *     navController.popBackStack()
+         */
     )
 }

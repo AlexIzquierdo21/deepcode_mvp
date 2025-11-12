@@ -1,6 +1,5 @@
 package com.deepcodeia.deepcode_app.ui.screens.profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deepcodeia.deepcode_app.data.LoginDataStore
@@ -36,10 +35,7 @@ class ProfileViewModel @Inject constructor(
     val events = _events.receiveAsFlow()
 
     init {
-        Log.i("ERROR", "INICIA EL INIT")
-        viewModelScope.launch {
-            loadUserData()
-        }
+        loadUserData()
     }
 
     /**
@@ -54,11 +50,6 @@ class ProfileViewModel @Inject constructor(
         // Obtener progreso de retos
         val progressResult = getUserProgressUseCase()
 
-        Log.i("DEBUG", "-- ENTRA ANTES IF --")
-        Log.i("DEBUG", "-- USER - RESULT - ${userResult} --")
-        Log.i("DEBUG", "-- USER - RESULT - ${userResult.isSuccess} --")
-        Log.i("DEBUG", "-- USER - RESULT - ${userResult.isFailure} --")
-
         // Procesar resultados
         if (userResult.isSuccess && progressResult.isSuccess) {
             val user = userResult.getOrNull()!!
@@ -67,8 +58,6 @@ class ProfileViewModel @Inject constructor(
             // Calcular estadísticas
             val completed = progressList.count { it.status == "COMPLETED" }
             val total = progressList.size
-            print("--- ENTRA IF ANTES _State ---")
-            Log.i("DEBUG", "-- DESPUES DEL IF --")
 
             _state.value = ProfileUiState(
                 username = user.name ?: "Usuario",
@@ -77,11 +66,7 @@ class ProfileViewModel @Inject constructor(
                 totalChallenges = total,
                 isLoading = false
             )
-            Log.i("DEBUG", "-- DESPUES DEL STATE --")
-            Log.i("DEBUG", "-- VALOR ${_state.value}--")
         } else {
-            Log.i("DEBUG", "-- ELSE --")
-            Log.i("DEBUG", "-- VALOR ${_state.value}--")
             // Error al cargar datos - mostrar datos vacíos
             _state.value = ProfileUiState(
                 username = "Error",
