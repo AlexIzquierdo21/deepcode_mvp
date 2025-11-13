@@ -1,97 +1,94 @@
 package com.deepcodeia.deepcode_app.ui.screens.challenges
 
 import androidx.lifecycle.ViewModel
-import com.deepcodeia.deepcode_app.domain.model.Challenge
+import androidx.lifecycle.viewModelScope
+import com.deepcodeia.deepcode_app.domain.usecase.challenge.GetChallengesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
  * ViewModel de la pantalla de lista de retos.
- * Por ahora usa datos fake, luego se conectará al backend.
+ * Conectado al backend mediante GetChallengesUseCase.
  */
 @HiltViewModel
 class ChallengesViewModel @Inject constructor(
-    // TODO: Inyectar GetChallengesUseCase cuando exista
+    private val getChallengesUseCase: GetChallengesUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(
-        ChallengesUiState(
-            challenges = getFakeChallenges(),
-            isLoading = false
-        )
-    )
+    private val _state = MutableStateFlow(ChallengesUiState(isLoading = true))
     val state: StateFlow<ChallengesUiState> = _state.asStateFlow()
+
+    init {
+        loadChallenges()
+    }
+
+    /**
+     * Carga los retos desde el backend.
+     */
+    private fun loadChallenges() = viewModelScope.launch {
+        _state.value = _state.value.copy(isLoading = true)
+
+        val result = getChallengesUseCase()
+
+        if (result.isSuccess) {
+            val challenges = result.getOrNull() ?: emptyList()
+            _state.value = _state.value.copy(
+                challenges = challenges,
+                isLoading = false
+            )
+        } else {
+            // Error al cargar
+            _state.value = _state.value.copy(
+                challenges = emptyList(),
+                isLoading = false
+            )
+        }
+    }
 
     /**
      * Filtra por lenguaje de programación.
-     * Si es null, muestra todos.
+     * Recarga los retos del backend con el filtro.
      */
     fun onLanguageSelected(language: String?) {
         _state.value = _state.value.copy(selectedLanguage = language)
+        loadChallengesWithFilters()
     }
 
     /**
      * Filtra por nivel de dificultad.
-     * Si es null, muestra todos.
+     * Recarga los retos del backend con el filtro.
      */
     fun onLevelSelected(level: String?) {
         _state.value = _state.value.copy(selectedLevel = level)
+        loadChallengesWithFilters()
     }
 
     /**
-     * Datos fake para desarrollo.
-     * TODO: Reemplazar con llamada al backend.
+     * Recarga los retos aplicando los filtros actuales.
      */
-    private fun getFakeChallenges(): List<Challenge> {
-        return listOf(
-            Challenge(
-                id = 1,
-                title = "Hola Mundo en Python",
-                description = "Crea un programa que imprima 'Hola Mundo' en la consola",
-                programmingLanguage = "PYTHON",
-                level = "BEGINNER",
-                createdBy = "Admin",
-                createdAt = "2024-11-01"
-            ),
-            Challenge(
-                id = 2,
-                title = "Calculadora básica",
-                description = "Implementa una calculadora con operaciones básicas",
-                programmingLanguage = "JAVA",
-                level = "BEGINNER",
-                createdBy = "Admin",
-                createdAt = "2024-11-02"
-            ),
-            Challenge(
-                id = 3,
-                title = "Lista de tareas con Compose",
-                description = "Crea una app de tareas usando Jetpack Compose",
-                programmingLanguage = "KOTLIN",
-                level = "INTERMEDIATE",
-                createdBy = "Admin",
-                createdAt = "2024-11-03"
-            ),
-            Challenge(
-                id = 4,
-                title = "Página web responsive",
-                description = "Diseña una landing page responsive con HTML, CSS y JS",
-                programmingLanguage = "HTML_CSS_JS",
-                level = "BEGINNER",
-                createdBy = "Admin",
-                createdAt = "2024-11-04"
-            ),
-            Challenge(
-                id = 5,
-                title = "Algoritmo de ordenamiento",
-                description = "Implementa QuickSort en Python",
-                programmingLanguage = "PYTHON",
-                level = "INTERMEDIATE",
-                createdBy = "Admin",
-                createdAt = "2024-11-05"
-            )
+    private fun loadChallengesWithFilters() = viewModelScope.launch {
+        _state.value = _state.value.copy(isLoading = true)
+
+        val result = getChallengesUseCase(
+            language = _state.value.selectedLanguage,
+            level = _state.value.selectedLevel
         )
+
+        if (result.isSuccess) {
+            val challenges = result.getOrNull() ?: emptyList()
+            _state.value = _state.value.copy(
+                challenges = challenges,
+                isLoading = false
+            )
+        } else {
+            _state.value = _state.value.copy(
+                challenges = emptyList(),
+                isLoading = false
+            )
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.deepcodeia.deepcode_app.di
 
 import com.deepcodeia.deepcode_app.data.remote.AuthApiService
+import com.deepcodeia.deepcode_app.data.remote.ChallengeApiService
 import com.deepcodeia.deepcode_app.data.remote.ProgressApiService
 import com.deepcodeia.deepcode_app.data.remote.UserApiService
 import dagger.Module
@@ -55,5 +56,15 @@ object ApiModule {
     @Singleton
     fun provideProgressApiService(retrofit: Retrofit): ProgressApiService {
         return retrofit.create(ProgressApiService::class.java)
+    }
+
+    /**
+     * Provee ChallengeApiService para endpoints de retos.
+     * Endpoints protegidos (requieren JWT): /challenges
+     */
+    @Provides
+    @Singleton
+    fun provideChallengeApiService(retrofit: Retrofit): ChallengeApiService {
+        return retrofit.create(ChallengeApiService::class.java)
     }
 }

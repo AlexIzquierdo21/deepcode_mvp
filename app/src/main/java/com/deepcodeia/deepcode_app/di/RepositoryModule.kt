@@ -1,9 +1,11 @@
 package com.deepcodeia.deepcode_app.di
 
 import com.deepcodeia.deepcode_app.data.repository.AuthRepositoryImpl
+import com.deepcodeia.deepcode_app.data.repository.ChallengeRepositoryImpl
 import com.deepcodeia.deepcode_app.data.repository.ProgressRepositoryImpl
 import com.deepcodeia.deepcode_app.data.repository.UserRepositoryImpl
 import com.deepcodeia.deepcode_app.domain.repository.AuthRepository
+import com.deepcodeia.deepcode_app.domain.repository.ChallengeRepository
 import com.deepcodeia.deepcode_app.domain.repository.ProgressRepository
 import com.deepcodeia.deepcode_app.domain.repository.UserRepository
 import dagger.Binds
@@ -59,4 +61,14 @@ abstract class RepositoryModule {
     abstract fun bindProgressRepository(
         impl: ProgressRepositoryImpl
     ): ProgressRepository
+
+    /**
+     * Vincula ChallengeRepository con ChallengeRepositoryImpl.
+     * Cuando alguien pida ChallengeRepository, Hilt inyectará ChallengeRepositoryImpl.
+     */
+    @Binds
+    @Singleton
+    abstract fun bindChallengeRepository(
+        impl: ChallengeRepositoryImpl
+    ): ChallengeRepository
 }
