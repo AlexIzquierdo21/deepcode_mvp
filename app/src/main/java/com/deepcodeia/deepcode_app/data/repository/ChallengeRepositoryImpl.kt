@@ -1,6 +1,7 @@
 package com.deepcodeia.deepcode_app.data.repository
 
 import com.deepcodeia.deepcode_app.data.remote.ChallengeApiService
+import com.deepcodeia.deepcode_app.data.remote.dto.CreateChallengeRequest
 import com.deepcodeia.deepcode_app.domain.model.Challenge
 import com.deepcodeia.deepcode_app.domain.repository.ChallengeRepository
 import javax.inject.Inject
@@ -38,6 +39,39 @@ class ChallengeRepositoryImpl @Inject constructor(
             Result.success(challenges)
         } catch (e: Exception) {
             Result.failure(Exception("Error al obtener retos: ${e.message}"))
+        }
+    }
+
+    override suspend fun createChallenge(
+        title: String,
+        description: String,
+        language: String,
+        level: String
+    ): Result<Challenge> {
+        return try {
+            val request = CreateChallengeRequest(
+                title = title,
+                description = description,
+                language = language,
+                level = level
+            )
+
+            val challengeDto = challengeApiService.createChallenge(request)
+
+            // Convertir DTO a entidad del dominio
+            val challenge = Challenge(
+                id = challengeDto.id,
+                title = challengeDto.title,
+                description = challengeDto.description,
+                programmingLanguage = challengeDto.programmingLanguage,
+                level = challengeDto.level,
+                createdBy = challengeDto.createdBy.username,
+                createdAt = challengeDto.createdAt
+            )
+
+            Result.success(challenge)
+        } catch (e: Exception) {
+            Result.failure(Exception("Error al crear reto: ${e.message}"))
         }
     }
 }

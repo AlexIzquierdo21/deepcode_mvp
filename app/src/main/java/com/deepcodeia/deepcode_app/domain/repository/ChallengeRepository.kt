@@ -18,4 +18,19 @@ interface ChallengeRepository {
         language: String? = null,
         level: String? = null
     ): Result<List<Challenge>>
+
+    /**
+     * Crea un nuevo reto.
+     * @param title Título del reto
+     * @param description Descripción del reto
+     * @param language Lenguaje de programación
+     * @param level Nivel de dificultad
+     * @return Result con el Challenge creado si es exitoso, o Exception si falla
+     */
+    suspend fun createChallenge(
+        title: String,
+        description: String,
+        language: String,
+        level: String
+    ): Result<Challenge>
 }

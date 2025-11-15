@@ -2,6 +2,7 @@ package com.deepcodeia.deepcode_app.ui.screens.createchallenge
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.deepcodeia.deepcode_app.domain.usecase.challenge.CreateChallengeUseCase
 import com.deepcodeia.deepcode_app.navigation.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -14,28 +15,26 @@ import javax.inject.Inject
 
 /**
  * ViewModel de la pantalla de creación de retos.
- * Por ahora usa datos fake, luego se conectará al backend.
+ * Conectado al backend mediante CreateChallengeUseCase.
  */
-
 @HiltViewModel
 class CreateChallengeViewModel @Inject constructor(
-    // TODO: Inyectar CreateChallengeUseCase cuando exista
+    private val createChallengeUseCase: CreateChallengeUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(
-        CreateChallengeUiState())
+    private val _state = MutableStateFlow(CreateChallengeUiState())
     val state: StateFlow<CreateChallengeUiState> = _state.asStateFlow()
 
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
 
     /**
-     * Actualiza el titulo del reto
+     * Actualiza el título del reto.
      */
     fun onTitleChange(title: String) {
         _state.value = _state.value.copy(
             title = title,
-            titleError = if(title.isBlank()) "El título no puede estar vacío" else null
+            titleError = if (title.isBlank()) "El título no puede estar vacío" else null
         )
     }
 
@@ -50,25 +49,24 @@ class CreateChallengeViewModel @Inject constructor(
     }
 
     /**
-     * Selecciona el lenguaje de programación
+     * Selecciona el lenguaje de programación.
      */
     fun onLanguageSelected(language: String) {
         _state.value = _state.value.copy(selectedLanguage = language)
     }
 
     /**
-     * Selecciona el nivel de dificultad
+     * Selecciona el nivel de dificultad.
      */
     fun onLevelSelected(level: String) {
         _state.value = _state.value.copy(selectedLevel = level)
     }
 
     /**
-     * Intenta crear el reto
-     * TODO = Conectar el backend con POST /challenges
+     * Crea el reto en el backend.
      */
     fun onCreateClick() = viewModelScope.launch {
-        // Validar Campos
+        // Validar campos
         if (!_state.value.isValid) {
             _events.send(UiEvent.ShowSnackbar("Por favor completa todos los campos"))
             return@launch
@@ -76,15 +74,22 @@ class CreateChallengeViewModel @Inject constructor(
 
         _state.value = _state.value.copy(isLoading = true)
 
-        // TODO = Llamar al BackEnd
-        // val result = CreateChallengeUseCase(...)
-
-        //Simulación de éxito
-        kotlinx.coroutines.delay(1000)
+        // Llamar al backend
+        val result = createChallengeUseCase(
+            title = _state.value.title,
+            description = _state.value.description,
+            language = _state.value.selectedLanguage,
+            level = _state.value.selectedLevel
+        )
 
         _state.value = _state.value.copy(isLoading = false)
-        _events.send(UiEvent.ShowSnackbar("¡Reto Creado exitosamente!"))
-        _events.send(UiEvent.NavigateBack)
+
+        if (result.isSuccess) {
+            _events.send(UiEvent.ShowSnackbar("¡Reto creado exitosamente!"))
+            _events.send(UiEvent.NavigateBack)
+        } else {
+            _events.send(UiEvent.ShowSnackbar("Error al crear el reto"))
+        }
     }
 }
 
