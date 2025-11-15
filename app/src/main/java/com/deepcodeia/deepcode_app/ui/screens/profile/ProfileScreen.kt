@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 fun ProfileScreen(
     state: ProfileUiState,
     onMyCreatedChallengesClick: () -> Unit,
+    onCompletedChallengesClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -139,6 +140,17 @@ fun ProfileScreen(
             }
 
             Spacer(Modifier.height(16.dp))
+
+            // Botón: Retos Completados (NUEVO)
+            Button(
+                onClick = onCompletedChallengesClick,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                Text("Retos Completados")
+            }
 
             // Botón de logout
             Button(

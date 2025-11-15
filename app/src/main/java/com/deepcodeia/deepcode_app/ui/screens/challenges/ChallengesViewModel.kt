@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.deepcodeia.deepcode_app.domain.usecase.challenge.GetChallengesUseCase
 import com.deepcodeia.deepcode_app.domain.usecase.challenge.MarkChallengeAsCompletedUseCase
 import com.deepcodeia.deepcode_app.domain.usecase.user.GetUserProgressUseCase
+import com.deepcodeia.deepcode_app.ui.screens.challenges.CompletionFilter
 import com.deepcodeia.deepcode_app.navigation.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -137,5 +138,12 @@ class ChallengesViewModel @Inject constructor(
                 isLoading = false
             )
         }
+    }
+
+    /**
+     * Cambia el filtro de completados/no completados.
+     */
+    fun onCompletionFilterSelected(filter: CompletionFilter) {
+        _state.value = _state.value.copy(selectedCompletionFilter = filter)
     }
 }

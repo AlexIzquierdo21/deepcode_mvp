@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.deepcodeia.deepcode_app.navigation.Route
 import com.deepcodeia.deepcode_app.ui.screens.challenges.ChallengesEntry
+import com.deepcodeia.deepcode_app.ui.screens.completedchallenges.CompletedChallengesEntry
 import com.deepcodeia.deepcode_app.ui.screens.createchallenge.CreateChallengeEntry
 import com.deepcodeia.deepcode_app.ui.screens.home.HomeScreen
 import com.deepcodeia.deepcode_app.ui.screens.home.VideosScreen
@@ -79,6 +80,15 @@ fun NavGraphBuilder.homeGraph(
         // Pantalla de Mis Retos Creados
         composable(Route.MyCreatedChallenges.route) {
             MyCreatedChallengesEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
+            )
+        }
+
+        // Pantalla de Retos Completados
+        composable(Route.CompletedChallenges.route) {
+            CompletedChallengesEntry(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
                 contentPadding = contentPadding

@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui.screens.challenges
+package com.deepcodeia.deepcode_app.ui.screens.completedchallenges
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,20 +15,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.domain.model.Challenge
-import com.deepcodeia.deepcode_app.ui.screens.challenges.CompletionFilter
 
 /**
- * Pantalla de lista de retos (UI pura).
- * Muestra retos con filtros por lenguaje y nivel.
+ * Pantalla de retos completados (UI pura).
+ * Muestra solo los retos que el usuario ha completado con filtros.
  */
 @Composable
-fun ChallengesScreen(
-    state: ChallengesUiState,
+fun CompletedChallengesScreen(
+    state: CompletedChallengesUiState,
     onLanguageSelected: (String?) -> Unit,
     onLevelSelected: (String?) -> Unit,
-    onCompletionFilterSelected: (CompletionFilter) -> Unit,
     onChallengeClick: (Challenge) -> Unit,
-    onMarkAsCompleted: (Long) -> Unit,
     onBack: () -> Unit
 ) {
     Surface(
@@ -53,7 +51,7 @@ fun ChallengesScreen(
                 }
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    text = "Retos de Programación",
+                    text = "Retos Completados",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
@@ -182,58 +180,7 @@ fun ChallengesScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            Spacer(Modifier.height(16.dp))
-
-// Filtro de completados
-            Text(
-                text = "Estado:",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Spacer(Modifier.height(8.dp))
-
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                item {
-                    FilterChip(
-                        selected = state.selectedCompletionFilter == CompletionFilter.ALL,
-                        onClick = { onCompletionFilterSelected(CompletionFilter.ALL) },
-                        label = { Text("Todos") },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    )
-                }
-                item {
-                    FilterChip(
-                        selected = state.selectedCompletionFilter == CompletionFilter.COMPLETED,
-                        onClick = { onCompletionFilterSelected(CompletionFilter.COMPLETED) },
-                        label = { Text("Completados") },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    )
-                }
-                item {
-                    FilterChip(
-                        selected = state.selectedCompletionFilter == CompletionFilter.NOT_COMPLETED,
-                        onClick = { onCompletionFilterSelected(CompletionFilter.NOT_COMPLETED) },
-                        label = { Text("No Completados") },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            // Lista de retos
+            // Lista de retos completados
             if (state.isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -241,16 +188,25 @@ fun ChallengesScreen(
                 ) {
                     CircularProgressIndicator()
                 }
+            } else if (state.filteredChallenges.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No has completado ningún reto aún",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             } else {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(state.filteredChallenges) { challenge ->
-                        ChallengeCard(
+                        CompletedChallengeCard(
                             challenge = challenge,
-                            isCompleted = state.isChallengeCompleted(challenge.id),
-                            onClick = { onChallengeClick(challenge) },
-                            onMarkAsCompleted = { onMarkAsCompleted(challenge.id) }
+                            onClick = { onChallengeClick(challenge) }
                         )
                     }
                 }
@@ -260,36 +216,44 @@ fun ChallengesScreen(
 }
 
 /**
- * Card individual de un reto.
+ * Card de un reto completado (sin botón de marcar).
  */
 @Composable
-private fun ChallengeCard(
+private fun CompletedChallengeCard(
     challenge: Challenge,
-    isCompleted: Boolean,
-    onClick: () -> Unit,
-    onMarkAsCompleted: () -> Unit
+    onClick: () -> Unit
 ) {
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = if (isCompleted) {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            } else {
-                MaterialTheme.colorScheme.surface
-            }
+            containerColor = MaterialTheme.colorScheme.onSurfaceVariant  // Color de completado
         )
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Título
-            Text(
-                text = challenge.title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            // Header: Título + Icono de completado
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = challenge.title,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                )
+
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "Completado",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
 
             Spacer(Modifier.height(8.dp))
 
@@ -320,27 +284,11 @@ private fun ChallengeCard(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     )
                 )
-
-                Spacer(Modifier.height(12.dp))
-
-                // Botón: Marcar como completado
-                Button(
-                    onClick = onMarkAsCompleted,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text("Marcar como Completado")
-                }
             }
         }
     }
 }
 
-/**
- * Convierte el código del lenguaje a nombre legible.
- */
 private fun getLanguageName(code: String): String {
     return when (code) {
         "PYTHON" -> "Python"
@@ -351,9 +299,6 @@ private fun getLanguageName(code: String): String {
     }
 }
 
-/**
- * Convierte el código del nivel a nombre legible.
- */
 private fun getLevelName(code: String): String {
     return when (code) {
         "BEGINNER" -> "Principiante"

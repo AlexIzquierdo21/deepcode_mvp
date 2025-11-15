@@ -16,4 +16,5 @@ sealed class Route(val route: String) {
     data object Challenges : Route("challenges")
     data object CreateChallenge : Route("create_challenge")
     data object MyCreatedChallenges : Route("my_created_challenges")
+    data object CompletedChallenges : Route("completed_challenges")
 }

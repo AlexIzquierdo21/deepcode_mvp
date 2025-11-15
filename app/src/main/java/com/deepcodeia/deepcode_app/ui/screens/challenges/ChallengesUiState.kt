@@ -11,14 +11,20 @@ data class ChallengesUiState(
     val completedChallengeIds: Set<Long> = emptySet(),  // IDs de retos completados
     val isLoading: Boolean = false,
     val selectedLanguage: String? = null,
-    val selectedLevel: String? = null
+    val selectedLevel: String? = null,
+    val selectedCompletionFilter: CompletionFilter = CompletionFilter.ALL
 ) {
     /**
-     * Ahora filteredChallenges es simplemente challenges,
-     * porque el filtrado se hace en el backend.
+     * Lista de retos filtrada por estado de completado.
      */
     val filteredChallenges: List<Challenge>
-        get() = challenges
+        get() = challenges.filter { challenge ->
+            when (selectedCompletionFilter) {
+                CompletionFilter.ALL -> true
+                CompletionFilter.COMPLETED -> isChallengeCompleted(challenge.id)
+                CompletionFilter.NOT_COMPLETED -> !isChallengeCompleted(challenge.id)
+            }
+        }
 
     /**
      * Verifica si un reto está completado.
@@ -26,4 +32,13 @@ data class ChallengesUiState(
     fun isChallengeCompleted(challengeId: Long): Boolean {
         return completedChallengeIds.contains(challengeId)
     }
+}
+
+/**
+ * Filtro por estado de completado.
+ */
+enum class CompletionFilter {
+    ALL,           // Todos los retos
+    COMPLETED,     // Solo completados
+    NOT_COMPLETED  // Solo no completados
 }

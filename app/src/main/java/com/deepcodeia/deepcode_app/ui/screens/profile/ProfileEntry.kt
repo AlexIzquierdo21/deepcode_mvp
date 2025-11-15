@@ -46,6 +46,9 @@ fun ProfileEntry(
         onMyCreatedChallengesClick = {
             navController.navigate(Route.MyCreatedChallenges.route)
         },
+        onCompletedChallengesClick = {
+            navController.navigate(Route.CompletedChallenges.route)
+        },
         onLogoutClick = viewModel::onLogoutClick,
         onBack = { navController.popBackStack() }
     )
