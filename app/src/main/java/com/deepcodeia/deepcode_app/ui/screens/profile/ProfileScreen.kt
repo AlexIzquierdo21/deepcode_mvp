@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ProfileScreen(
     state: ProfileUiState,
+    onMyCreatedChallengesClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -125,6 +126,19 @@ fun ProfileScreen(
             }
 
             Spacer(Modifier.weight(1f))
+
+            // Botón: Mis Retos Creados
+            Button(
+                onClick = onMyCreatedChallengesClick,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                Text("Mis Retos Creados")
+            }
+
+            Spacer(Modifier.height(16.dp))
 
             // Botón de logout
             Button(

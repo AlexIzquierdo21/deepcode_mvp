@@ -13,4 +13,11 @@ interface ProgressRepository {
      * @return Result con lista de UserProgress si es exitoso, o Exception si falla
      */
     suspend fun getUserProgress(): Result<List<UserProgress>>
+
+    /**
+     * Marca un reto como completado.
+     * @param challengeId ID del reto a marcar como completado
+     * @return Result vacío si es exitoso, o Exception si falla
+     */
+    suspend fun markChallengeAsCompleted(challengeId: Long): Result<Unit>
 }

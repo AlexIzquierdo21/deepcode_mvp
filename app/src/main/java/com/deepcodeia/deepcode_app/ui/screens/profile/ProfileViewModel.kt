@@ -3,6 +3,7 @@ package com.deepcodeia.deepcode_app.ui.screens.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deepcodeia.deepcode_app.data.LoginDataStore
+import com.deepcodeia.deepcode_app.domain.usecase.challenge.GetChallengesUseCase
 import com.deepcodeia.deepcode_app.domain.usecase.user.GetCurrentUserUseCase
 import com.deepcodeia.deepcode_app.domain.usecase.user.GetUserProgressUseCase
 import com.deepcodeia.deepcode_app.navigation.UiEvent
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 /**
  * ViewModel de la pantalla de Perfil.
  * Obtiene datos reales del backend: información del usuario y progreso de retos.
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val dataStore: LoginDataStore,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
-    private val getUserProgressUseCase: GetUserProgressUseCase
+    private val getUserProgressUseCase: GetUserProgressUseCase,
+    private val getChallengesUseCase: GetChallengesUseCase
 ) : ViewModel() {
 
     // Estado inmutable que consume la UI
@@ -50,14 +53,18 @@ class ProfileViewModel @Inject constructor(
         // Obtener progreso de retos
         val progressResult = getUserProgressUseCase()
 
+        // Obtener TODOS los retos de la app
+        val allChallengesResult = getChallengesUseCase()
+
         // Procesar resultados
-        if (userResult.isSuccess && progressResult.isSuccess) {
+        if (userResult.isSuccess && progressResult.isSuccess && allChallengesResult.isSuccess) {
             val user = userResult.getOrNull()!!
             val progressList = progressResult.getOrNull()!!
+            val allChallenges = allChallengesResult.getOrNull()!!
 
             // Calcular estadísticas
             val completed = progressList.count { it.status == "COMPLETED" }
-            val total = progressList.size
+            val total = allChallenges.size  // ← Total de retos en la app
 
             _state.value = ProfileUiState(
                 username = user.name ?: "Usuario",

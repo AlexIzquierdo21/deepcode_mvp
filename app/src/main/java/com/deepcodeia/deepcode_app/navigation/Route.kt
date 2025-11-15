@@ -14,6 +14,6 @@ sealed class Route(val route: String) {
     data object Videos : Route("videos")
     data object Profile : Route("profile")
     data object Challenges : Route("challenges")
-
     data object CreateChallenge : Route("create_challenge")
+    data object MyCreatedChallenges : Route("my_created_challenges")
 }

@@ -1,7 +1,7 @@
 package com.deepcodeia.deepcode_app.data.repository
 
 import android.util.Log
-import com.deepcodeia.deepcode_app.data.remote.UserApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.UserApiService
 import com.deepcodeia.deepcode_app.domain.model.User
 import com.deepcodeia.deepcode_app.domain.repository.UserRepository
 import javax.inject.Inject

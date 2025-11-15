@@ -2,7 +2,7 @@ package com.deepcodeia.deepcode_app.data.repository
 
 import com.deepcodeia.deepcode_app.data.LoginDataStore
 import com.deepcodeia.deepcode_app.data.LoginModel
-import com.deepcodeia.deepcode_app.data.remote.AuthApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.AuthApiService
 import com.deepcodeia.deepcode_app.data.remote.dto.LoginRequest
 import com.deepcodeia.deepcode_app.data.remote.dto.RegisterRequest
 import com.deepcodeia.deepcode_app.domain.model.User

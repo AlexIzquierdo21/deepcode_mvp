@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.ui.screens.challenges
+package com.deepcodeia.deepcode_app.ui.screens.mycreatedchallenges
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.SnackbarHostState
@@ -10,30 +10,24 @@ import androidx.navigation.NavHostController
 import com.deepcodeia.deepcode_app.navigation.HandleNavigationEvents
 
 /**
- * Punto de entrada para la pantalla de lista de retos.
+ * Punto de entrada para la pantalla de mis retos creados.
  * Conecta el ViewModel con la UI.
  */
 @Composable
-fun ChallengesEntry(
+fun MyCreatedChallengesEntry(
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
     contentPadding: PaddingValues
 ) {
-    val viewModel: ChallengesViewModel = hiltViewModel()
+    val viewModel: MyCreatedChallengesViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
 
     // Manejar eventos de navegación
     HandleNavigationEvents(navController, snackbarHostState, viewModel.events)
 
-    ChallengesScreen(
+    MyCreatedChallengesScreen(
         state = state,
-        onLanguageSelected = viewModel::onLanguageSelected,
-        onLevelSelected = viewModel::onLevelSelected,
-        onChallengeClick = { challenge ->
-            // TODO: Navegar a detalle del reto
-            // navController.navigate("challenge_detail/${challenge.id}")
-        },
-        onMarkAsCompleted = viewModel::onMarkAsCompleted,
-        onBack = { navController.popBackStack() }
+        onDeleteChallenge = viewModel::onDeleteChallenge,
+        onBack = { navController.navigateUp() }
     )
 }

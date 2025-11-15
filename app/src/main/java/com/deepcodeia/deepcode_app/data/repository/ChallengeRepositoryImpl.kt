@@ -1,6 +1,6 @@
 package com.deepcodeia.deepcode_app.data.repository
 
-import com.deepcodeia.deepcode_app.data.remote.ChallengeApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.ChallengeApiService
 import com.deepcodeia.deepcode_app.data.remote.dto.CreateChallengeRequest
 import com.deepcodeia.deepcode_app.domain.model.Challenge
 import com.deepcodeia.deepcode_app.domain.repository.ChallengeRepository
@@ -72,6 +72,42 @@ class ChallengeRepositoryImpl @Inject constructor(
             Result.success(challenge)
         } catch (e: Exception) {
             Result.failure(Exception("Error al crear reto: ${e.message}"))
+        }
+    }
+
+    override suspend fun getMyCreatedChallenges(): Result<List<Challenge>> {
+        return try {
+            val challengeDtos = challengeApiService.getMyCreatedChallenges()
+
+            // Convertir DTOs a entidades del dominio
+            val challenges = challengeDtos.map { dto ->
+                Challenge(
+                    id = dto.id,
+                    title = dto.title,
+                    description = dto.description,
+                    programmingLanguage = dto.programmingLanguage,
+                    level = dto.level,
+                    createdBy = dto.createdBy.username,
+                    createdAt = dto.createdAt
+                )
+            }
+
+            Result.success(challenges)
+        } catch (e: Exception) {
+            Result.failure(Exception("Error al obtener tus retos: ${e.message}"))
+        }
+    }
+
+    override suspend fun deleteChallenge(challengeId: Long): Result<Unit> {
+        return try {
+            val response = challengeApiService.deleteChallenge(challengeId)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Error al eliminar reto: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("Error al eliminar reto: ${e.message}"))
         }
     }
 }

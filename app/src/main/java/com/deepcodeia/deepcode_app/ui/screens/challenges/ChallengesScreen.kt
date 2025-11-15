@@ -25,6 +25,7 @@ fun ChallengesScreen(
     onLanguageSelected: (String?) -> Unit,
     onLevelSelected: (String?) -> Unit,
     onChallengeClick: (Challenge) -> Unit,
+    onMarkAsCompleted: (Long) -> Unit,
     onBack: () -> Unit
 ) {
     Surface(
@@ -194,7 +195,9 @@ fun ChallengesScreen(
                     items(state.filteredChallenges) { challenge ->
                         ChallengeCard(
                             challenge = challenge,
-                            onClick = { onChallengeClick(challenge) }
+                            isCompleted = state.isChallengeCompleted(challenge.id),
+                            onClick = { onChallengeClick(challenge) },
+                            onMarkAsCompleted = { onMarkAsCompleted(challenge.id) }
                         )
                     }
                 }
@@ -209,13 +212,19 @@ fun ChallengesScreen(
 @Composable
 private fun ChallengeCard(
     challenge: Challenge,
-    onClick: () -> Unit
+    isCompleted: Boolean,
+    onClick: () -> Unit,
+    onMarkAsCompleted: () -> Unit
 ) {
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = if (isCompleted) {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            } else {
+                MaterialTheme.colorScheme.surface
+            }
         )
     ) {
         Column(
@@ -258,6 +267,19 @@ private fun ChallengeCard(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     )
                 )
+
+                Spacer(Modifier.height(12.dp))
+
+                // Botón: Marcar como completado
+                Button(
+                    onClick = onMarkAsCompleted,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text("Marcar como Completado")
+                }
             }
         }
     }

@@ -20,6 +20,12 @@ interface ChallengeRepository {
     ): Result<List<Challenge>>
 
     /**
+     * Obtiene los retos creados por el usuario autenticado.
+     * @return Result con lista de Challenge creados por el usuario, o Exception si falla
+     */
+    suspend fun getMyCreatedChallenges(): Result<List<Challenge>>
+
+    /**
      * Crea un nuevo reto.
      * @param title Título del reto
      * @param description Descripción del reto
@@ -33,4 +39,12 @@ interface ChallengeRepository {
         language: String,
         level: String
     ): Result<Challenge>
+
+    /**
+     * Elimina un reto por su ID.
+     * Solo el creador puede eliminar.
+     * @param challengeId ID del reto a eliminar
+     * @return Result vacío si es exitoso, o Exception si falla
+     */
+    suspend fun deleteChallenge(challengeId: Long): Result<Unit>
 }

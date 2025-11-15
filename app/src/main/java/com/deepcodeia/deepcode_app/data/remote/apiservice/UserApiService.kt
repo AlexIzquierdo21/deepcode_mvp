@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.data.remote
+package com.deepcodeia.deepcode_app.data.remote.apiservice
 
 import com.deepcodeia.deepcode_app.data.remote.dto.UserDto
 import retrofit2.http.GET

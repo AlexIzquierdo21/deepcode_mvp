@@ -1,9 +1,9 @@
 package com.deepcodeia.deepcode_app.di
 
-import com.deepcodeia.deepcode_app.data.remote.AuthApiService
-import com.deepcodeia.deepcode_app.data.remote.ChallengeApiService
-import com.deepcodeia.deepcode_app.data.remote.ProgressApiService
-import com.deepcodeia.deepcode_app.data.remote.UserApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.AuthApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.ChallengeApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.ProgressApiService
+import com.deepcodeia.deepcode_app.data.remote.apiservice.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

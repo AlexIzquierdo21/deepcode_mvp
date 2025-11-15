@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.deepcodeia.deepcode_app.navigation.HandleNavigationEvents
-
+import com.deepcodeia.deepcode_app.navigation.Route
 
 /**
  *
@@ -43,6 +43,9 @@ fun ProfileEntry(
 
     ProfileScreen(
         state = state,
+        onMyCreatedChallengesClick = {
+            navController.navigate(Route.MyCreatedChallenges.route)
+        },
         onLogoutClick = viewModel::onLogoutClick,
         onBack = { navController.popBackStack() }
     )

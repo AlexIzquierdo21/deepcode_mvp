@@ -1,4 +1,4 @@
-package com.deepcodeia.deepcode_app.data.remote
+package com.deepcodeia.deepcode_app.data.remote.apiservice
 
 import com.deepcodeia.deepcode_app.data.remote.dto.AuthResponse
 import com.deepcodeia.deepcode_app.data.remote.dto.LoginRequest

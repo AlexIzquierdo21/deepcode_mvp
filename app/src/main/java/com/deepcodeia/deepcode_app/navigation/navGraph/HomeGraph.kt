@@ -11,6 +11,7 @@ import com.deepcodeia.deepcode_app.ui.screens.challenges.ChallengesEntry
 import com.deepcodeia.deepcode_app.ui.screens.createchallenge.CreateChallengeEntry
 import com.deepcodeia.deepcode_app.ui.screens.home.HomeScreen
 import com.deepcodeia.deepcode_app.ui.screens.home.VideosScreen
+import com.deepcodeia.deepcode_app.ui.screens.mycreatedchallenges.MyCreatedChallengesEntry
 import com.deepcodeia.deepcode_app.ui.screens.profile.ProfileEntry
 
 /**
@@ -69,6 +70,15 @@ fun NavGraphBuilder.homeGraph(
         // Pantalla de Crear Reto (NUEVA)
         composable(Route.CreateChallenge.route) {
             CreateChallengeEntry(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                contentPadding = contentPadding
+            )
+        }
+
+        // Pantalla de Mis Retos Creados
+        composable(Route.MyCreatedChallenges.route) {
+            MyCreatedChallengesEntry(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
                 contentPadding = contentPadding
