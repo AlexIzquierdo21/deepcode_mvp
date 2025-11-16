@@ -1,11 +1,14 @@
 package com.deepcodeia.deepcode_app.ui.screens.challenges
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,8 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.deepcodeia.deepcode_app.R
 import com.deepcodeia.deepcode_app.domain.model.Challenge
 import com.deepcodeia.deepcode_app.ui.screens.challenges.CompletionFilter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
+
 
 /**
  * Pantalla de lista de retos (UI pura).
@@ -184,7 +191,7 @@ fun ChallengesScreen(
 
             Spacer(Modifier.height(16.dp))
 
-// Filtro de completados
+            // Filtro de completados
             Text(
                 text = "Estado:",
                 fontSize = 16.sp,
@@ -302,10 +309,19 @@ private fun ChallengeCard(
 
             Spacer(Modifier.height(12.dp))
 
-            // Tags de lenguaje y nivel
+            // Tags de lenguaje, nivel y botón completar
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                // Logo del lenguaje
+                Image(
+                    painter = painterResource(id = getLanguageLogo(challenge.programmingLanguage)),
+                    contentDescription = getLanguageName(challenge.programmingLanguage),
+                    modifier = Modifier.size(32.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+
                 AssistChip(
                     onClick = {},
                     label = { Text(getLanguageName(challenge.programmingLanguage)) },
@@ -313,6 +329,8 @@ private fun ChallengeCard(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     )
                 )
+                Spacer(Modifier.width(8.dp))
+
                 AssistChip(
                     onClick = {},
                     label = { Text(getLevelName(challenge.level)) },
@@ -321,17 +339,20 @@ private fun ChallengeCard(
                     )
                 )
 
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.weight(1f))
 
-                // Botón: Marcar como completado
-                Button(
-                    onClick = onMarkAsCompleted,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text("Marcar como Completado")
+                if (!isCompleted) {
+                    IconButton(
+                        onClick = onMarkAsCompleted,
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Marcar como completado",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
                 }
             }
         }
@@ -359,5 +380,19 @@ private fun getLevelName(code: String): String {
         "BEGINNER" -> "Principiante"
         "INTERMEDIATE" -> "Intermedio"
         else -> code
+    }
+}
+
+/**
+ * Obtiene el recurso drawable del logo según el lenguaje.
+ */
+@DrawableRes
+private fun getLanguageLogo(code: String): Int {
+    return when (code) {
+        "PYTHON" -> R.drawable.ic_python
+        "JAVA" -> R.drawable.ic_java
+        "KOTLIN" -> R.drawable.ic_kotlin
+        "HTML_CSS_JS" -> R.drawable.ic_web
+        else -> R.drawable.ic_web
     }
 }
