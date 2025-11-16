@@ -23,5 +23,12 @@ val DeepBorder = Color(0xFF2E2E2E)          // Bordes y contornos sutiles
 val DeepOnBackground = Color(0xFFEFEFEF)    // Texto e iconos sobre el fondo principal
 val DeepTextSecondary = Color(0xFFBDBDBD)   // Texto secundario o desactivado
 
+// Color para retos completados (verde oscuro con tinte neón)
+val DeepCompletedChallenge = Color(0xFF1A3D00)
+
+// Colores para chips con significado visual
+val DeepChipLanguage = Color(0xFFFFAA00) // Amarillo - Informativo
+val DeepChipLevel = Color(0xFFFF3D00)   // Rojo - Nivel/Dificultad
+
 
 

@@ -20,7 +20,11 @@ private val DeepColorScheme = darkColorScheme(
     // Colores para snackbar
     inverseSurface = DeepBg,
     inverseOnSurface = DeepNeon,           // ← Texto del Snackbar (negro)
-    inversePrimary = DeepElectricBlue    // ← Color del botón de acción
+    inversePrimary = DeepElectricBlue,   // ← Color del botón de acción
+    // Colores personalizados para retos completados y chips
+    tertiary = DeepCompletedChallenge,           // ← Para retos completados
+    primaryContainer = DeepChipLanguage,         // ← Para chips de lenguaje
+    secondaryContainer = DeepChipLevel           // ← Para chips de nivel
 )
 
 // Tema global - SIEMPRE usa el esquema oscuro

@@ -21,6 +21,18 @@ import com.deepcodeia.deepcode_app.domain.model.Challenge
 import com.deepcodeia.deepcode_app.ui.screens.challenges.CompletionFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.getValue
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
+import androidx.compose.ui.draw.scale
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 
 /**
@@ -276,15 +288,22 @@ private fun ChallengeCard(
     onClick: () -> Unit,
     onMarkAsCompleted: () -> Unit
 ) {
+    // Animación del color del card
+    val cardColor by animateColorAsState(
+        targetValue = if (isCompleted) {
+            MaterialTheme.colorScheme.tertiary
+        } else {
+            MaterialTheme.colorScheme.surface
+        },
+        animationSpec = tween(durationMillis = 450),
+        label = "cardColor"
+    )
+
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = if (isCompleted) {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            } else {
-                MaterialTheme.colorScheme.surface
-            }
+            containerColor = cardColor
         )
     ) {
         Column(
@@ -341,10 +360,30 @@ private fun ChallengeCard(
 
                 Spacer(Modifier.weight(1f))
 
-                if (!isCompleted) {
+                // Animación de visibilidad del icono
+                AnimatedVisibility(
+                    visible = !isCompleted,
+                    exit = fadeOut(animationSpec = tween(durationMillis = 300))
+                ) {
+                    var isPressed by remember { mutableStateOf(false) }
+
+                    val scale by animateFloatAsState(
+                        targetValue = if (isPressed) 0.85f else 1f,
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessLow
+                        ),
+                        label = "buttonScale"
+                    )
+
                     IconButton(
-                        onClick = onMarkAsCompleted,
-                        modifier = Modifier.size(40.dp)
+                        onClick = {
+                            isPressed = true
+                            onMarkAsCompleted()
+                        },
+                        modifier = Modifier
+                            .size(40.dp)
+                            .scale(scale)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Check,

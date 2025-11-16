@@ -14,6 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.domain.model.Challenge
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.deepcodeia.deepcode_app.R
 
 /**
  * Pantalla de mis retos creados (UI pura).
@@ -147,8 +151,16 @@ private fun MyChallengeCard(
 
             // Tags de lenguaje y nivel
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                // Logo del lenguaje
+                Image(
+                    painter = painterResource(id = getLanguageLogo(challenge.programmingLanguage)),
+                    contentDescription = getLanguageName(challenge.programmingLanguage),
+                    modifier = Modifier.size(32.dp)
+                )
+
                 AssistChip(
                     onClick = {},
                     label = { Text(getLanguageName(challenge.programmingLanguage)) },
@@ -207,5 +219,19 @@ private fun getLevelName(code: String): String {
         "BEGINNER" -> "Principiante"
         "INTERMEDIATE" -> "Intermedio"
         else -> code
+    }
+}
+
+/**
+ * Obtiene el recurso drawable del logo según el lenguaje.
+ */
+@DrawableRes
+private fun getLanguageLogo(code: String): Int {
+    return when (code) {
+        "PYTHON" -> R.drawable.ic_python
+        "JAVA" -> R.drawable.ic_java
+        "KOTLIN" -> R.drawable.ic_kotlin
+        "HTML_CSS_JS" -> R.drawable.ic_web
+        else -> R.drawable.ic_web
     }
 }

@@ -1,5 +1,6 @@
 package com.deepcodeia.deepcode_app.ui.screens.completedchallenges
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,6 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deepcodeia.deepcode_app.domain.model.Challenge
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.deepcodeia.deepcode_app.R
+
+
 
 /**
  * Pantalla de retos completados (UI pura).
@@ -227,7 +233,7 @@ private fun CompletedChallengeCard(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.onSurfaceVariant  // Color de completado
+            containerColor = MaterialTheme.colorScheme.tertiary  // Color de completado
         )
     ) {
         Column(
@@ -268,8 +274,17 @@ private fun CompletedChallengeCard(
 
             // Tags de lenguaje y nivel
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+
+                // Logo del lenguaje
+                Image(
+                    painter = painterResource(id = getLanguageLogo(challenge.programmingLanguage)),
+                    contentDescription = getLanguageName(challenge.programmingLanguage),
+                    modifier = Modifier.size(32.dp)
+                )
+
                 AssistChip(
                     onClick = {},
                     label = { Text(getLanguageName(challenge.programmingLanguage)) },
@@ -304,5 +319,19 @@ private fun getLevelName(code: String): String {
         "BEGINNER" -> "Principiante"
         "INTERMEDIATE" -> "Intermedio"
         else -> code
+    }
+}
+
+/**
+ * Obtiene el recurso drawable del logo según el lenguaje.
+ */
+@DrawableRes
+private fun getLanguageLogo(code: String): Int {
+    return when (code) {
+        "PYTHON" -> R.drawable.ic_python
+        "JAVA" -> R.drawable.ic_java
+        "KOTLIN" -> R.drawable.ic_kotlin
+        "HTML_CSS_JS" -> R.drawable.ic_web
+        else -> R.drawable.ic_web
     }
 }

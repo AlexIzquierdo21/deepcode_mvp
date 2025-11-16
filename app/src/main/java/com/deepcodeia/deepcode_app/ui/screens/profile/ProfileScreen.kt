@@ -13,6 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.Box
 
 /**
  * ProfileScreen (UI pura)
@@ -108,13 +115,29 @@ fun ProfileScreen(
 
                     Spacer(Modifier.height(16.dp))
 
-                    LinearProgressIndicator(
-                        progress = { state.progressPercentage },
+                    // Barra de progreso animada
+                    val animatedProgress by animateFloatAsState(
+                        targetValue = state.progressPercentage,
+                        animationSpec = tween(
+                            durationMillis = 1000,
+                            easing = FastOutSlowInEasing
+                        ),
+                        label = "progressAnimation"
+                    )
+
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(12.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                            .height(12.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                    ) {
+                        LinearProgressIndicator(
+                            progress = { animatedProgress },
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    }
 
                     Spacer(Modifier.height(12.dp))
 
