@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 
 /**
  * ViewModel de la pantalla de lista de retos.
@@ -34,7 +35,22 @@ class ChallengesViewModel @Inject constructor(
     val events = _events.receiveAsFlow()
 
     init {
-        loadChallengesAndProgress()
+        loadChallengesWithFilters() // Usa esta función en vez de la otra
+        loadUserProgress()
+    }
+
+    private fun loadUserProgress() = viewModelScope.launch {
+        val progressResult = getUserProgressUseCase()
+
+        if (progressResult.isSuccess) {
+            val progress = progressResult.getOrNull() ?: emptyList()
+            val completedIds = progress
+                .filter { it.status == "COMPLETED" }
+                .map { it.challengeId }
+                .toSet()
+
+            _state.value = _state.value.copy(completedChallengeIds = completedIds)
+        }
     }
 
     /**

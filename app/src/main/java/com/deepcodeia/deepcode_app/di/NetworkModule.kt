@@ -34,7 +34,7 @@ object NetworkModule {
      * - Dispositivo físico: http://TU_IP_LOCAL:8080/
      * - Producción: https://tu-dominio.com/
      */
-    private const val BASE_URL = "http://10.0.2.2:8080/"
+    private const val BASE_URL = "http://10.42.54.172:8080/"
 
     /**
      * Provee un interceptor de logging para ver peticiones HTTP en Logcat.
