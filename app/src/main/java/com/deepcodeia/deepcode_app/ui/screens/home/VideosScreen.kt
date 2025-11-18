@@ -38,7 +38,7 @@ fun VideosScreen(
                 navigationIcon = {
                     // Botón de volver atrás
                     TextButton(onClick = onBack) {
-                        Text("← Volver", color = MaterialTheme.colorScheme.onBackground)
+                        Text("←", color = MaterialTheme.colorScheme.onBackground)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
